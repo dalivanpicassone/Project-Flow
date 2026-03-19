@@ -1,0 +1,111 @@
+<h2>Акцентный цвет</h2>
+<p class="subtitle">Один главный цвет — кнопки, активные элементы, подсветка</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="indigo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111118;padding:16px;font-family:system-ui;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;height:28px;background:#6366f1;border-radius:6px;display:flex;align-items:center;justify-content:center">
+          <span style="font-size:9px;font-weight:700;color:#fff">+ Новая доска</span>
+        </div>
+        <div style="width:28px;height:28px;background:#6366f1;border-radius:6px;opacity:0.15;border:1px solid #6366f1"></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#6366f1"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">Дизайн системы</div>
+            <div style="font-size:7px;color:#6366f1;margin-top:2px">● В РАБОТЕ · 2/5</div>
+          </div>
+        </div>
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#8b5cf6"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">API Разработка</div>
+            <div style="font-size:7px;color:#8b5cf6;margin-top:2px">● ГОТОВО · 6/6</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#6366f115;border:1px solid #6366f130;border-radius:6px;padding:6px;display:flex;align-items:center;gap:6px">
+        <div style="width:8px;height:8px;border-radius:50%;background:#6366f1"></div>
+        <span style="font-size:8px;color:#a5b4fc">Активная колонка подсвечена</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Индиго / Фиолетовый</h3>
+      <p>Спокойный, технологичный. Ассоциация с Linear, Notion. Универсальный выбор.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="cyan" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111118;padding:16px;font-family:system-ui;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;height:28px;background:#06b6d4;border-radius:6px;display:flex;align-items:center;justify-content:center">
+          <span style="font-size:9px;font-weight:700;color:#fff">+ Новая доска</span>
+        </div>
+        <div style="width:28px;height:28px;background:#06b6d4;border-radius:6px;opacity:0.15;border:1px solid #06b6d4"></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#06b6d4"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">Дизайн системы</div>
+            <div style="font-size:7px;color:#06b6d4;margin-top:2px">● В РАБОТЕ · 2/5</div>
+          </div>
+        </div>
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#0ea5e9"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">API Разработка</div>
+            <div style="font-size:7px;color:#0ea5e9;margin-top:2px">● ГОТОВО · 6/6</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#06b6d415;border:1px solid #06b6d430;border-radius:6px;padding:6px;display:flex;align-items:center;gap:6px">
+        <div style="width:8px;height:8px;border-radius:50%;background:#06b6d4"></div>
+        <span style="font-size:8px;color:#67e8f9">Активная колонка подсвечена</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Циан / Голубой</h3>
+      <p>Свежий, современный. Хорошо читается на тёмном фоне. Как Vercel или Supabase.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="amber" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111118;padding:16px;font-family:system-ui;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;height:28px;background:#f59e0b;border-radius:6px;display:flex;align-items:center;justify-content:center">
+          <span style="font-size:9px;font-weight:700;color:#1c1400">+ Новая доска</span>
+        </div>
+        <div style="width:28px;height:28px;background:#f59e0b;border-radius:6px;opacity:0.15;border:1px solid #f59e0b"></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#f59e0b"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">Дизайн системы</div>
+            <div style="font-size:7px;color:#f59e0b;margin-top:2px">● В РАБОТЕ · 2/5</div>
+          </div>
+        </div>
+        <div style="flex:1;background:#1c1c24;border-radius:6px;overflow:hidden;border:1px solid #1e1e2a">
+          <div style="height:2px;background:#eab308"></div>
+          <div style="padding:6px">
+            <div style="font-size:8px;font-weight:600;color:#e2e8f0">API Разработка</div>
+            <div style="font-size:7px;color:#eab308;margin-top:2px">● ГОТОВО · 6/6</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#f59e0b15;border:1px solid #f59e0b30;border-radius:6px;padding:6px;display:flex;align-items:center;gap:6px">
+        <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b"></div>
+        <span style="font-size:8px;color:#fcd34d">Активная колонка подсвечена</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Янтарный / Золотой</h3>
+      <p>Тёплый, энергичный. Выделяется на рынке. Как показано в варианте C выше.</p>
+    </div>
+  </div>
+
+</div>

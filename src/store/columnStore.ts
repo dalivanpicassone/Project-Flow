@@ -17,14 +17,15 @@ export const useColumnStore = create<ColumnState>((set) => ({
   columns: [],
   isLoading: false,
   setColumns: (columns) => set({ columns }),
-  addColumn: (column) => set((state) => ({ columns: [...state.columns, column] })),
+  addColumn: (column) => set((state) => ({
+    columns: state.columns.some((c) => c.id === column.id)
+      ? state.columns
+      : [...state.columns, column],
+  })),
   updateColumn: (id, updates) =>
     set((state) => ({
-      columns: state.columns.map((column) =>
-        column.id === id ? { ...column, ...updates } : column
-      ),
+      columns: state.columns.map((c) => (c.id === id ? { ...c, ...updates } : c)),
     })),
-  removeColumn: (id) =>
-    set((state) => ({ columns: state.columns.filter((column) => column.id !== id) })),
+  removeColumn: (id) => set((state) => ({ columns: state.columns.filter((c) => c.id !== id) })),
   setLoading: (isLoading) => set({ isLoading }),
 }))

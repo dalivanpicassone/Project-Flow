@@ -1,3 +1,3 @@
 export default function InvitePage() {
-  return <div className="p-6">Invite</div>
+  return <div className="p-6">Приглашение</div>
 }

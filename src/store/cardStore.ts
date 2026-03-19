@@ -17,11 +17,15 @@ export const useCardStore = create<CardState>((set) => ({
   cards: [],
   isLoading: false,
   setCards: (cards) => set({ cards }),
-  addCard: (card) => set((state) => ({ cards: [...state.cards, card] })),
+  addCard: (card) => set((state) => ({
+    cards: state.cards.some((c) => c.id === card.id)
+      ? state.cards
+      : [...state.cards, card],
+  })),
   updateCard: (id, updates) =>
     set((state) => ({
-      cards: state.cards.map((card) => (card.id === id ? { ...card, ...updates } : card)),
+      cards: state.cards.map((c) => (c.id === id ? { ...c, ...updates } : c)),
     })),
-  removeCard: (id) => set((state) => ({ cards: state.cards.filter((card) => card.id !== id) })),
+  removeCard: (id) => set((state) => ({ cards: state.cards.filter((c) => c.id !== id) })),
   setLoading: (isLoading) => set({ isLoading }),
 }))
