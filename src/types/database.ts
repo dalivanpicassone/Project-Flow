@@ -1,6 +1,12 @@
+/** Приоритет карточки: critical > high > medium > low */
 export type Priority = "critical" | "high" | "medium" | "low"
+/** Роль пользователя на доске */
 export type BoardRole = "owner" | "member"
 
+/**
+ * Типы таблиц базы данных Supabase.
+ * Генерируется вручную на основе схемы миграций в /supabase/migrations/.
+ */
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "12"

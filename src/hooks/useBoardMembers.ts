@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 
 export interface BoardMember {
@@ -14,19 +14,28 @@ export interface BoardMember {
   }
 }
 
+/**
+ * Хук для управления участниками доски.
+ * Предоставляет методы приглашения, удаления и смены роли участника.
+ */
 export function useBoardMembers(boardId: string) {
   const [members, setMembers] = useState<BoardMember[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
+  // Мемоизируем клиент, чтобы не создавать новый экземпляр при каждом рендере
+  const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
     if (boardId) fetchMembers()
   }, [boardId])
 
+  /**
+   * Загружает участников доски вместе с их профилями.
+   * Выполняет два запроса: сначала участники, затем профили по user_id.
+   */
   const fetchMembers = async () => {
     setIsLoading(true)
 
-    // Fetch board members with their profiles
+    // Запрашиваем список участников доски
     const { data: memberData, error } = await supabase
       .from("board_members")
       .select("id, user_id, role")
@@ -37,13 +46,14 @@ export function useBoardMembers(boardId: string) {
       return
     }
 
-    // Fetch profiles for each member
+    // Запрашиваем профили для каждого участника
     const userIds = memberData.map((m) => m.user_id)
     const { data: profiles } = await supabase
       .from("profiles")
       .select("id, full_name, avatar_url")
       .in("id", userIds)
 
+    // Объединяем данные участников с их профилями
     const enriched: BoardMember[] = memberData.map((m) => {
       const profile = profiles?.find((p) => p.id === m.user_id)
       return {
@@ -53,7 +63,8 @@ export function useBoardMembers(boardId: string) {
         profile: {
           full_name: profile?.full_name ?? null,
           avatar_url: profile?.avatar_url ?? null,
-          email: m.user_id, // fallback; replaced below if available
+          // Используем user_id как запасное значение, если email недоступен
+          email: m.user_id,
         },
       }
     })
@@ -62,6 +73,10 @@ export function useBoardMembers(boardId: string) {
     setIsLoading(false)
   }
 
+  /**
+   * Отправляет приглашение пользователю по email через API-маршрут.
+   * Только владелец доски может приглашать участников.
+   */
   const inviteMember = async (email: string): Promise<{ error: string | null }> => {
     const res = await fetch("/api/board/invite", {
       method: "POST",
@@ -72,10 +87,12 @@ export function useBoardMembers(boardId: string) {
     const json = await res.json()
     if (!res.ok) return { error: json.error ?? "Ошибка приглашения" }
 
+    // Обновляем список участников после успешного приглашения
     await fetchMembers()
     return { error: null }
   }
 
+  /** Удаляет участника из доски по его идентификатору (не user_id). */
   const removeMember = async (memberId: string): Promise<{ error: string | null }> => {
     const { error } = await supabase
       .from("board_members")
@@ -87,6 +104,7 @@ export function useBoardMembers(boardId: string) {
     return { error: null }
   }
 
+  /** Изменяет роль участника в доске. */
   const updateRole = async (
     memberId: string,
     role: "owner" | "member"

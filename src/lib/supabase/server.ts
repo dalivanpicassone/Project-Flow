@@ -2,6 +2,10 @@ import type { Database } from "@/types/database"
 import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 
+/**
+ * Создаёт Supabase-клиент для использования на сервере (Server Components, Route Handlers).
+ * Читает куки из входящего запроса; запись куки игнорируется в Server Component-контексте.
+ */
 export async function createClient() {
   const cookieStore = await cookies()
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -22,7 +26,7 @@ export async function createClient() {
             cookieStore.set(name, value, options)
           }
         } catch {
-          // Server Component context — cookies can't be set
+          // В контексте Server Component куки устанавливать нельзя — игнорируем
         }
       },
     },

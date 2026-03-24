@@ -1,5 +1,6 @@
 import { z } from "zod"
 
+/** Схема валидации для создания новой доски */
 export const createBoardSchema = z.object({
   title: z.string().min(1, "Название обязательно").max(100, "Максимум 100 символов"),
   description: z.string().max(500, "Максимум 500 символов").optional(),
@@ -9,6 +10,7 @@ export const createBoardSchema = z.object({
     .optional(),
 })
 
+/** Схема валидации для обновления доски (все поля опциональны) */
 export const updateBoardSchema = createBoardSchema.partial()
 
 export type CreateBoardInput = z.infer<typeof createBoardSchema>

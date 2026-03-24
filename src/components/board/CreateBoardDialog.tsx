@@ -33,7 +33,7 @@ export function CreateBoardDialog() {
   const [open, setOpen] = useState(false)
   const [selectedColor, setSelectedColor] = useState(BOARD_COLORS[0])
   const [submitError, setSubmitError] = useState<string | null>(null)
-  const { createBoard } = useBoards()
+  const { createBoard } = useBoards({ autoFetch: false })
 
   const {
     register,

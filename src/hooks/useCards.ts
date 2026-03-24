@@ -7,9 +7,16 @@ import { useEffect, useMemo, useRef } from "react"
 
 type Card = Database["public"]["Tables"]["cards"]["Row"]
 
+/**
+ * Хук для работы с карточками на конкретной доске.
+ * Реализует оптимистичные обновления при перемещении карточек
+ * и защиту от гонки запросов при смене boardId.
+ */
 export function useCards(boardId: string) {
   const { cards, isLoading, setCards, addCard, updateCard, removeCard, setLoading } = useCardStore()
+  // Мемоизируем клиент, чтобы не создавать новый экземпляр при каждом рендере
   const supabase = useMemo(() => createClient(), [])
+  // ref для отмены устаревших запросов при быстрой смене boardId
   const currentBoardIdRef = useRef(boardId)
   currentBoardIdRef.current = boardId
 
@@ -17,7 +24,9 @@ export function useCards(boardId: string) {
     if (boardId) fetchCards()
   }, [boardId])
 
+  /** Загружает карточки текущей доски, отсортированные по позиции. */
   const fetchCards = async () => {
+    // Сохраняем boardId на момент начала запроса для защиты от гонки
     const expectedBoardId = boardId
     setCards([])
     setLoading(true)
@@ -27,14 +36,16 @@ export function useCards(boardId: string) {
       .eq("board_id", boardId)
       .order("position", { ascending: true })
 
-    // Discard result if boardId changed while fetching
+    // Отбрасываем результат, если boardId изменился пока шёл запрос
     if (currentBoardIdRef.current !== expectedBoardId) return
     if (!error && data) setCards(data as Card[])
     setLoading(false)
   }
 
+  /** Создаёт карточку в конце указанной колонки. */
   const createCard = async (columnId: string, input: { title: string; priority?: string }) => {
-    // Read current state from store to avoid stale closure when creating cards rapidly
+    // Читаем актуальное состояние из хранилища, чтобы избежать устаревшего замыкания
+    // при быстром последовательном создании карточек
     const currentCards = useCardStore.getState().cards
     const columnCards = currentCards.filter((c) => c.column_id === columnId)
     const maxPosition =
@@ -56,6 +67,7 @@ export function useCards(boardId: string) {
     return { data, error }
   }
 
+  /** Обновляет поля карточки по идентификатору. */
   const updateCardById = async (id: string, input: Partial<Card>) => {
     const { data, error } = await supabase
       .from("cards")
@@ -68,23 +80,29 @@ export function useCards(boardId: string) {
     return { data, error }
   }
 
+  /** Удаляет карточку по идентификатору. */
   const deleteCard = async (id: string) => {
     const { error } = await supabase.from("cards").delete().eq("id", id)
     if (!error) removeCard(id)
     return { error }
   }
 
+  /**
+   * Перемещает карточку в другую колонку с оптимистичным обновлением UI.
+   * При ошибке БД откатывает состояние к предыдущему.
+   */
   const moveCard = async (
     cardId: string,
     newColumnId: string,
     updatedCards: Card[]
   ) => {
     const previousCards = useCardStore.getState().cards
+    // Немедленно обновляем UI (оптимистичное обновление)
     setCards(updatedCards)
 
-    // Single batch: reorder all cards in the target column.
-    // The moved card gets column_id + moved_at updated here too,
-    // so we avoid a second conflicting UPDATE.
+    // Один пакетный запрос: переупорядочиваем все карточки в целевой колонке.
+    // Перемещаемая карточка получает column_id + moved_at в том же UPDATE,
+    // чтобы избежать второго конфликтующего запроса.
     const affected = updatedCards.filter((c) => c.column_id === newColumnId)
     const updates = affected.map((card, index) => {
       const patch =
@@ -95,6 +113,7 @@ export function useCards(boardId: string) {
     })
 
     const results = await Promise.all(updates)
+    // Откатываем оптимистичное обновление при ошибке
     if (results.some((r) => r.error)) {
       setCards(previousCards)
     }

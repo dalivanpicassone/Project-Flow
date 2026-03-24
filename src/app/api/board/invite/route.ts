@@ -2,6 +2,13 @@ import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { createClient as createAdminClient } from "@supabase/supabase-js"
 
+/**
+ * POST /api/board/invite
+ *
+ * Приглашает пользователя по email на доску.
+ * Доступно только владельцу (owner) доски.
+ * Использует admin-клиент для поиска пользователя по email.
+ */
 export async function POST(request: Request) {
   const { boardId, email } = await request.json()
 
@@ -11,12 +18,13 @@ export async function POST(request: Request) {
 
   const supabase = await createClient()
 
-  // Verify the requester is the board owner
+  // Проверяем, что запрос делает аутентифицированный пользователь
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
+  // Проверяем, что текущий пользователь является владельцем доски
   const { data: board } = await supabase
     .from("boards")
     .select("owner_id")
@@ -27,7 +35,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Only the board owner can invite members" }, { status: 403 })
   }
 
-  // Use admin client to look up user by email
+  // Используем admin-клиент для поиска пользователя по email
+  // (service role key НЕ должен передаваться на клиент; обрабатывается только на сервере)
   const adminClient = createAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -38,6 +47,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to look up users" }, { status: 500 })
   }
 
+  // Ищем пользователя с указанным email
   const targetUser = users.find((u) => u.email === email)
   if (!targetUser) {
     return NextResponse.json(
@@ -46,7 +56,7 @@ export async function POST(request: Request) {
     )
   }
 
-  // Check if already a member
+  // Проверяем, не является ли пользователь уже участником
   const { data: existing } = await supabase
     .from("board_members")
     .select("id")
@@ -58,7 +68,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Пользователь уже является участником доски" }, { status: 409 })
   }
 
-  // Add member
+  // Добавляем пользователя в участники с ролью "member"
   const { error: insertError } = await supabase
     .from("board_members")
     .insert({ board_id: boardId, user_id: targetUser.id, role: "member" })

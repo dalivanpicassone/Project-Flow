@@ -1,10 +1,12 @@
 import { z } from "zod"
 
+/** Схема валидации формы входа */
 export const loginSchema = z.object({
   email: z.string().email("Введите корректный email"),
   password: z.string().min(6, "Минимум 6 символов"),
 })
 
+/** Схема валидации формы регистрации с проверкой совпадения паролей */
 export const registerSchema = z
   .object({
     full_name: z.string().min(2, "Минимум 2 символа").max(100),

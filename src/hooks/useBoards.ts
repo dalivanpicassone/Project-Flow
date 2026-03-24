@@ -7,17 +7,24 @@ import { useEffect, useMemo } from "react"
 
 type Board = Database["public"]["Tables"]["boards"]["Row"]
 
-export function useBoards() {
+/**
+ * Хук для работы с досками пользователя.
+ * Загружает доски при монтировании и предоставляет методы CRUD.
+ * Состояние синхронизируется с глобальным хранилищем Zustand (boardStore).
+ */
+export function useBoards({ autoFetch = true }: { autoFetch?: boolean } = {}) {
   const { boards, isLoading, setBoards, addBoard, updateBoard, removeBoard, setLoading } =
     useBoardStore()
+  // Мемоизируем клиент, чтобы не создавать новый экземпляр при каждом рендере
   const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
-    fetchBoards()
-  // fetchBoards captures stable references (memoized supabase + Zustand setters)
+    if (autoFetch) fetchBoards()
+  // fetchBoards захватывает стабильные ссылки (мемоизированный supabase + Zustand сеттеры)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  /** Загружает все не-архивированные доски текущего пользователя. */
   const fetchBoards = async () => {
     setLoading(true)
     const { data, error } = await supabase
@@ -27,7 +34,7 @@ export function useBoards() {
       .order("created_at", { ascending: false })
 
     if (error) {
-      console.error("Error fetching boards:", error)
+      console.error("Ошибка загрузки досок:", error)
       setLoading(false)
       return
     }
@@ -35,17 +42,18 @@ export function useBoards() {
     if (data) {
       setBoards(data as Board[])
     } else {
-      console.warn("No boards returned - check RLS policies and authentication")
+      console.warn("Доски не возвращены — проверьте RLS-политики и аутентификацию")
     }
 
     setLoading(false)
   }
 
+  /** Создаёт новую доску и добавляет её в локальное состояние. */
   const createBoard = async (input: { title: string; description?: string; color?: string }) => {
     const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
 
     if (sessionError || !sessionData.session) {
-      console.error("Authentication error:", sessionError)
+      console.error("Ошибка аутентификации:", sessionError)
       return { error: "Not authenticated" }
     }
 
@@ -58,7 +66,7 @@ export function useBoards() {
       .single()
 
     if (error) {
-      console.error("Error creating board:", error)
+      console.error("Ошибка создания доски:", error)
       return { data: null, error }
     }
 
@@ -66,6 +74,7 @@ export function useBoards() {
     return { data, error }
   }
 
+  /** Обновляет поля существующей доски по идентификатору. */
   const updateBoardById = async (id: string, input: Partial<Board>) => {
     const { data, error } = await supabase
       .from("boards")
@@ -78,6 +87,7 @@ export function useBoards() {
     return { data, error }
   }
 
+  /** Переводит доску в архив (скрывает из общего списка, не удаляет). */
   const archiveBoard = async (id: string) => {
     const { error } = await supabase
       .from("boards")
@@ -88,6 +98,7 @@ export function useBoards() {
     return { error }
   }
 
+  /** Безвозвратно удаляет доску и все связанные данные. */
   const deleteBoard = async (id: string) => {
     const { error } = await supabase.from("boards").delete().eq("id", id)
     if (!error) removeBoard(id)

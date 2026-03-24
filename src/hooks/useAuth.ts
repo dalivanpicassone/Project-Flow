@@ -5,18 +5,22 @@ import type { User } from "@supabase/supabase-js"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
-
+/**
+ * Хук для управления состоянием аутентификации пользователя.
+ * Подписывается на изменения сессии через Supabase Auth и
+ * предоставляет метод выхода из системы.
+ */
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  // Мемоизируем клиент, чтобы не создавать новый экземпляр при каждом рендере
   const supabase = useMemo(() => createClient(), [])
 
   useEffect(() => {
-    // Supabase v2 fires INITIAL_SESSION synchronously, so we rely solely on the
-    // listener instead of calling getSession() separately. This avoids a race
-    // where a late-resolving getSession() could overwrite a more recent
-    // SIGNED_OUT event emitted by the listener.
+    // Supabase v2 генерирует INITIAL_SESSION синхронно, поэтому используем только
+    // подписчик вместо отдельного вызова getSession(). Это исключает гонку, при которой
+    // запоздавший getSession() мог бы перезаписать более свежее событие SIGNED_OUT.
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -24,9 +28,13 @@ export function useAuth() {
       setIsLoading(false)
     })
 
+    // Отписываемся при размонтировании компонента
     return () => subscription.unsubscribe()
   }, [supabase])
 
+  /**
+   * Выполняет выход пользователя из системы и перенаправляет на страницу входа.
+   */
   const signOut = async () => {
     const { error } = await supabase.auth.signOut()
 

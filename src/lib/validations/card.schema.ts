@@ -1,7 +1,9 @@
 import { z } from "zod"
 
+/** Перечисление допустимых приоритетов карточки */
 export const priorityEnum = z.enum(["critical", "high", "medium", "low"])
 
+/** Схема валидации для создания новой карточки */
 export const createCardSchema = z.object({
   title: z.string().min(1, "Название обязательно").max(200, "Максимум 200 символов"),
   description: z.string().max(5000).optional().nullable(),
@@ -11,6 +13,7 @@ export const createCardSchema = z.object({
   labels: z.array(z.string()).optional().nullable(),
 })
 
+/** Схема валидации для обновления карточки (все поля опциональны) */
 export const updateCardSchema = createCardSchema.partial()
 
 export type CreateCardInput = z.infer<typeof createCardSchema>
