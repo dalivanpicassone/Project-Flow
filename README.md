@@ -1,299 +1,123 @@
 <div align="center">
 
-# 🚀 ProjectFlow
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=200&section=header&text=ProjectFlow&fontSize=70&fontAlignY=35&animation=fadeIn&fontColor=ffffff&desc=Kanban%20Board%20for%20Modern%20Teams&descAlignY=58&descSize=20" width="100%"/>
 
-**Современный Kanban для управления проектами**
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=6366F1&center=true&vCenter=true&random=false&width=600&lines=Real-time+Kanban+boards;Drag+%26+drop+task+management;Team+collaboration+made+easy;Built+with+Next.js+%26+Supabase" alt="Typing SVG" /></a>
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database-3FCF8E?logo=supabase)](https://supabase.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+<br/>
 
-[Демо](#демо) • [Возможности](#возможности) • [Установка](#установка) • [Документация](#структура-проекта)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-8B5CF6?style=for-the-badge)](LICENSE)
 
 </div>
 
----
 
-## 📋 Описание
+<br/>
 
-**ProjectFlow** — это полнофункциональное веб-приложение для управления задачами в стиле Kanban. Приложение позволяет создавать доски, колонки и карточки с поддержкой drag-and-drop, совместной работы в реальном времени и гибкой настройки рабочего процесса.
+<div align="center">
+
+**ProjectFlow** — веб-приложение для управления задачами в стиле Kanban с поддержкой real-time синхронизации, drag-and-drop и совместной работой команды.
+
+</div>
+
+<br/>
 
 ---
 
 ## ✨ Возможности
 
-### Управление досками
-- 📊 Создание и настройка Kanban-досок
-- 🎨 Кастомизация цветов досок
-- 📁 Архивирование неактивных досок
-- 👥 Приглашение участников по ссылке
+<table>
+<tr>
+<td width="50%">
 
-### Управление задачами
-- ✅ Создание карточек с описанием
-- 🔄 Drag-and-drop перемещение между колонками
-- 🏷️ Приоритеты задач (critical, high, medium, low)
-- 📅 Установка дедлайнов
-- 👤 Назначение исполнителей
-- 🏷️ Метки и теги
+**📋 Kanban-доски**
+- Drag & drop карточек между колонками
+- WIP-лимиты на колонки
+- Кастомизация цветов
 
-### Колонки и лимиты
-- 📋 Неограниченное количество колонок
-- ⚠️ WIP-лимиты (Work In Progress)
-- 🔢 Автоматическая нумерация позиций
-- 🎨 Цветовая маркировка колонок
+</td>
+<td width="50%">
 
-### Совместная работа
-- 🔄 Real-time синхронизация через Supabase Realtime
-- 👥 Система ролей (owner, member)
-- 🔗 Приглашение по токену
-- 📊 Статистика по участникам
+**🃏 Умные карточки**
+- Приоритеты (critical / high / medium / low)
+- Дедлайны и назначение исполнителей
+- Метки и теги
 
-### Безопасность
-- 🔐 Аутентификация через Supabase Auth
-- 🛡️ Row Level Security (RLS) на уровне БД
-- 🔒 Защищённые API-маршруты
+</td>
+</tr>
+<tr>
+<td width="50%">
 
----
+**👥 Командная работа**
+- Приглашение участников по ссылке
+- Роли: owner и member
+- Статистика по участникам
 
-## 🛠️ Технологический стек
+</td>
+<td width="50%">
 
-| Категория | Технологии |
-|-----------|------------|
-| **Frontend** | Next.js 16, React 19, TypeScript 5 |
-| **Стилизация** | Tailwind CSS 4, Shadcn/UI, Lucide Icons |
-| **State Management** | Zustand |
-| **Drag & Drop** | DnD Kit |
-| **Формы** | React Hook Form, Zod |
-| **Backend** | Supabase (PostgreSQL, Auth, Realtime) |
-| **Тестирование** | Vitest, Testing Library |
-| **Линтинг** | Biome |
-| **Деплой** | Vercel |
+**⚡ Real-time & Безопасность**
+- Live-обновления через Supabase Realtime
+- Row Level Security на уровне БД
+- Защищённая аутентификация
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 📦 Установка
+## 🛠️ Стек технологий
 
-### Предварительные требования
+<div align="center">
 
-- Node.js 20+
-- npm / yarn / pnpm
-- Аккаунт [Supabase](https://supabase.com/)
+| | |
+|---|---|
+| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js_16-000?style=flat-square&logo=next.js) ![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=flat-square&logo=typescript&logoColor=white) |
+| **UI** | ![Tailwind](https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwind-css&logoColor=white) ![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000?style=flat-square&logo=shadcnui) ![Lucide](https://img.shields.io/badge/Lucide_Icons-F56565?style=flat-square) |
+| **State** | ![Zustand](https://img.shields.io/badge/Zustand-433D3D?style=flat-square) ![Zod](https://img.shields.io/badge/Zod-3E67B1?style=flat-square&logo=zod&logoColor=white) |
+| **DnD** | ![dnd-kit](https://img.shields.io/badge/dnd--kit-FF4154?style=flat-square) |
+| **Backend** | ![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white) |
+| **Testing** | ![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white) ![Testing Library](https://img.shields.io/badge/Testing_Library-E33332?style=flat-square&logo=testinglibrary&logoColor=white) |
+| **Tooling** | ![Biome](https://img.shields.io/badge/Biome-60A5FA?style=flat-square&logo=biome&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000?style=flat-square&logo=vercel) |
 
-### Клонирование репозитория
+</div>
 
+---
+
+## 🚀 Быстрый старт
+
+**1. Клонируй репозиторий**
 ```bash
 git clone https://github.com/your-username/projectflow.git
 cd projectflow
-```
-
-### Установка зависимостей
-
-```bash
 npm install
 ```
 
-### Настройка переменных окружения
-
-Создайте файл `.env.local` в корне проекта:
-
+**2. Создай `.env.local`**
 ```env
-# Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# Приложение
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-### Настройка базы данных
+**3. Примени миграции базы данных**
 
-1. Создайте новый проект в [Supabase](https://app.supabase.com/)
-2. Выполните миграции из папки `supabase/migrations/` в SQL-редакторе Supabase:
-   - `001_initial_schema.sql` — базовая схема
-   - `002_fix_board_members_select_policy.sql` — исправления RLS
-   - `003_fix_recursive_rls_policies.sql` — исправления рекурсивных политик
-   - `004_fix_rls_with_check.sql` — дополнительные политики
+В SQL-редакторе [Supabase](https://app.supabase.com/) последовательно выполни файлы из папки `supabase/migrations/`.
 
----
-
-## 🚀 Запуск
-
-### Режим разработки
-
+**4. Запусти**
 ```bash
-npm run dev
+npm run dev  # http://localhost:3000
 ```
-
-Откройте [http://localhost:3000](http://localhost:3000) в браузере.
-
-### Сборка для продакшена
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## 📁 Структура проекта
-
-```
-projectflow/
-├── public/                 # Статические файлы
-├── src/
-│   ├── app/                # Next.js App Router
-│   │   ├── (auth)/         # Страницы авторизации
-│   │   │   ├── login/
-│   │   │   └── register/
-│   │   ├── (dashboard)/    # Защищённые страницы
-│   │   │   └── dashboard/
-│   │   ├── api/            # API-маршруты
-│   │   │   └── board/
-│   │   ├── board/          # Страницы досок
-│   │   │   └── [id]/
-│   │   ├── invite/         # Приглашения
-│   │   └── profile/        # Профиль пользователя
-│   │
-│   ├── components/         # React-компоненты
-│   │   ├── auth/           # Формы авторизации
-│   │   ├── board/          # Компоненты досок
-│   │   ├── dashboard/      # Компоненты дашборда
-│   │   ├── kanban/         # Kanban-компоненты
-│   │   ├── layout/         # Лейаут-компоненты
-│   │   └── ui/             # UI-библиотека (Shadcn)
-│   │
-│   ├── hooks/              # React-хуки
-│   │   ├── useAuth.ts
-│   │   ├── useBoards.ts
-│   │   ├── useCards.ts
-│   │   ├── useColumns.ts
-│   │   └── useRealtime.ts
-│   │
-│   ├── lib/                # Утилиты и конфиги
-│   │   ├── supabase/       # Клиенты Supabase
-│   │   └── validations/    # Zod-схемы
-│   │
-│   ├── store/              # Zustand-сторы
-│   │   ├── boardStore.ts
-│   │   ├── cardStore.ts
-│   │   └── columnStore.ts
-│   │
-│   ├── test/               # Тестовые утилиты
-│   └── types/              # TypeScript-типы
-│
-├── supabase/
-│   └── migrations/         # SQL-миграции
-│
-├── biome.json              # Конфиг Biome
-├── next.config.ts          # Конфиг Next.js
-├── tailwind.config.ts      # Конфиг Tailwind
-├── tsconfig.json           # Конфиг TypeScript
-└── vitest.config.ts        # Конфиг Vitest
-```
-
----
-
-## 📜 Доступные скрипты
-
-| Команда | Описание |
-|---------|----------|
-| `npm run dev` | Запуск dev-сервера |
-| `npm run build` | Сборка для продакшена |
-| `npm run start` | Запуск production-сервера |
-| `npm run lint` | Проверка кода через Biome |
-| `npm run lint:fix` | Автоисправление lint-ошибок |
-| `npm run format` | Форматирование кода |
-| `npm run check` | Полная проверка и форматирование |
-| `npm run test` | Запуск тестов |
-| `npm run test:ui` | Тесты с UI-интерфейсом |
-
----
-
-## 🧪 Тестирование
-
-Проект использует **Vitest** и **Testing Library** для тестирования.
-
-```bash
-# Запуск всех тестов
-npm run test
-
-# Тесты в watch-режиме
-npm run test -- --watch
-
-# Тесты с UI
-npm run test:ui
-
-# Coverage
-npm run test -- --coverage
-```
-
----
-
-## 🚢 Деплой
-
-### Vercel (рекомендуется)
-
-1. Подключите репозиторий к [Vercel](https://vercel.com/)
-2. Добавьте переменные окружения в настройках проекта
-3. Деплой произойдёт автоматически при пуше в main
-
-```bash
-# Ручной деплой
-npx vercel --prod
-```
-
-### Другие платформы
-
-Приложение можно развернуть на любой платформе с поддержкой Node.js:
-
-- Railway
-- Render
-- DigitalOcean App Platform
-- AWS Amplify
-
----
-
-## 🤝 Участие в разработке
-
-Мы приветствуем вклад в проект! Для участия:
-
-1. Форкните репозиторий
-2. Создайте ветку для фичи: `git checkout -b feature/amazing-feature`
-3. Закоммитьте изменения: `git commit -m 'feat: add amazing feature'`
-4. Запушьте ветку: `git push origin feature/amazing-feature`
-5. Откройте Pull Request
-
-### Правила коммитов
-
-Используйте [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `feat:` — новая функциональность
-- `fix:` — исправление бага
-- `docs:` — изменения документации
-- `style:` — форматирование кода
-- `refactor:` — рефакторинг
-- `test:` — добавление тестов
-- `chore:` — прочие изменения
 
 ---
 
 ## 📄 Лицензия
 
-Этот проект распространяется под лицензией MIT. Подробности в файле [LICENSE](LICENSE).
+[MIT](LICENSE)
 
----
-
-## 📞 Контакты
-
-Если у вас есть вопросы или предложения, создайте [Issue](https://github.com/your-username/projectflow/issues) или свяжитесь с нами.
-
----
-
-<div align="center">
-
-**Сделано с ❤️ с использованием Next.js и Supabase**
-
-</div>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=100&section=footer" width="100%"/>
