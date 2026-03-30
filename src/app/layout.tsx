@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster"
 import type { Metadata } from "next"
 import { Manrope } from "next/font/google"
 import "./globals.css"
@@ -19,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className={`${manrope.variable} dark`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

@@ -107,9 +107,7 @@ export function CreateBoardDialog() {
             </div>
           </div>
 
-          {submitError && (
-            <p className="text-sm text-red-500">{submitError}</p>
-          )}
+          {submitError && <p className="text-sm text-red-500">{submitError}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Отмена

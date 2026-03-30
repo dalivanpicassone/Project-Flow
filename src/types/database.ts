@@ -154,3 +154,16 @@ export type Database = {
     CompositeTypes: Record<string, never>
   }
 }
+
+// Convenience type aliases for table Insert/Update shapes
+export type BoardRow = Database["public"]["Tables"]["boards"]["Row"]
+export type BoardInsert = Database["public"]["Tables"]["boards"]["Insert"]
+export type BoardUpdate = Database["public"]["Tables"]["boards"]["Update"]
+
+export type ColumnRow = Database["public"]["Tables"]["columns"]["Row"]
+export type ColumnInsert = Database["public"]["Tables"]["columns"]["Insert"]
+export type ColumnUpdate = Database["public"]["Tables"]["columns"]["Update"]
+
+export type CardRow = Database["public"]["Tables"]["cards"]["Row"]
+export type CardInsert = Database["public"]["Tables"]["cards"]["Insert"]
+export type CardUpdate = Database["public"]["Tables"]["cards"]["Update"]

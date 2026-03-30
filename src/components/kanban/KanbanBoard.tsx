@@ -3,6 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { useCards } from "@/hooks/useCards"
 import { useColumns } from "@/hooks/useColumns"
+import { useRealtime } from "@/hooks/useRealtime"
 import { useCardStore } from "@/store/cardStore"
 import { useColumnStore } from "@/store/columnStore"
 import type { Database } from "@/types/database"
@@ -19,7 +20,6 @@ import {
 } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
 import { useCallback, useState } from "react"
-import { useRealtime } from "@/hooks/useRealtime"
 import { CreateColumnDialog } from "./CreateColumnDialog"
 import { KanbanCard } from "./KanbanCard"
 import { KanbanColumn } from "./KanbanColumn"
@@ -78,51 +78,54 @@ export function KanbanBoard({ boardId, onCardClick }: KanbanBoardProps) {
     setCards(updatedCards)
   }, [])
 
-  const handleDragEnd = useCallback(async (event: DragEndEvent) => {
-    setActiveCard(null)
-    const { active, over } = event
-    if (!over) return
+  const handleDragEnd = useCallback(
+    async (event: DragEndEvent) => {
+      setActiveCard(null)
+      const { active, over } = event
+      if (!over) return
 
-    const activeType = active.data.current?.type
+      const activeType = active.data.current?.type
 
-    // Column reorder — read current columns from store, not stale closure
-    if (activeType !== "card") {
-      const currentColumns = useColumnStore.getState().columns
-      const oldIndex = currentColumns.findIndex((c) => c.id === active.id)
-      const newIndex = currentColumns.findIndex((c) => c.id === over.id)
-      if (oldIndex !== newIndex) {
-        const reordered = arrayMove(currentColumns, oldIndex, newIndex)
-        await reorderColumns(reordered)
+      // Column reorder — read current columns from store, not stale closure
+      if (activeType !== "card") {
+        const currentColumns = useColumnStore.getState().columns
+        const oldIndex = currentColumns.findIndex((c) => c.id === active.id)
+        const newIndex = currentColumns.findIndex((c) => c.id === over.id)
+        if (oldIndex !== newIndex) {
+          const reordered = arrayMove(currentColumns, oldIndex, newIndex)
+          await reorderColumns(reordered)
+        }
+        return
       }
-      return
-    }
 
-    // Card move — read current cards from store, not stale closure
-    const { cards: currentCards } = useCardStore.getState()
-    const activeCardData = active.data.current?.card as CardType
-    const overType = over.data.current?.type
-    const targetColumnId =
-      overType === "column" ? (over.id as string) : (over.data.current?.card?.column_id as string)
+      // Card move — read current cards from store, not stale closure
+      const { cards: currentCards } = useCardStore.getState()
+      const activeCardData = active.data.current?.card as CardType
+      const overType = over.data.current?.type
+      const targetColumnId =
+        overType === "column" ? (over.id as string) : (over.data.current?.card?.column_id as string)
 
-    if (!targetColumnId) return
+      if (!targetColumnId) return
 
-    const targetColumnCards = currentCards
-      .filter((c) => c.column_id === targetColumnId && c.id !== activeCardData.id)
-      .sort((a, b) => a.position - b.position)
+      const targetColumnCards = currentCards
+        .filter((c) => c.column_id === targetColumnId && c.id !== activeCardData.id)
+        .sort((a, b) => a.position - b.position)
 
-    const overCardIndex =
-      overType === "card"
-        ? targetColumnCards.findIndex((c) => c.id === over.id)
-        : targetColumnCards.length
+      const overCardIndex =
+        overType === "card"
+          ? targetColumnCards.findIndex((c) => c.id === over.id)
+          : targetColumnCards.length
 
-    const newPosition = overCardIndex >= 0 ? overCardIndex : targetColumnCards.length
+      const newPosition = overCardIndex >= 0 ? overCardIndex : targetColumnCards.length
 
-    const updatedCards = currentCards.map((c) =>
-      c.id === activeCardData.id ? { ...c, column_id: targetColumnId, position: newPosition } : c
-    )
+      const updatedCards = currentCards.map((c) =>
+        c.id === activeCardData.id ? { ...c, column_id: targetColumnId, position: newPosition } : c
+      )
 
-    await moveCard(activeCardData.id, targetColumnId, updatedCards)
-  }, [moveCard, reorderColumns])
+      await moveCard(activeCardData.id, targetColumnId, updatedCards)
+    },
+    [moveCard, reorderColumns]
+  )
 
   if (colsLoading || cardsLoading) {
     const columnSkeletonKeys = ["col-1", "col-2", "col-3"]

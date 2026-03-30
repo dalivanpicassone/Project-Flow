@@ -1,6 +1,7 @@
 import { RegisterForm } from "@/components/auth/RegisterForm"
 import Link from "next/link"
 
+export const dynamic = "force-dynamic"
 export const metadata = { title: "Регистрация — ProjectFlow" }
 
 export default function RegisterPage() {

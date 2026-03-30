@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { createClient as createAdminClient } from "@supabase/supabase-js"
+import { NextResponse } from "next/server"
 
 /**
  * POST /api/board/invite
@@ -19,17 +19,19 @@ export async function POST(request: Request) {
   const supabase = await createClient()
 
   // Проверяем, что запрос делает аутентифицированный пользователь
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
   // Проверяем, что текущий пользователь является владельцем доски
-  const { data: board } = await supabase
+  const { data: board } = (await supabase
     .from("boards")
     .select("owner_id")
     .eq("id", boardId)
-    .single() as { data: { owner_id: string } | null, error: unknown }
+    .single()) as { data: { owner_id: string } | null; error: unknown }
 
   if (!board || board.owner_id !== user.id) {
     return NextResponse.json({ error: "Only the board owner can invite members" }, { status: 403 })
@@ -37,12 +39,22 @@ export async function POST(request: Request) {
 
   // Используем admin-клиент для поиска пользователя по email
   // (service role key НЕ должен передаваться на клиент; обрабатывается только на сервере)
-  const adminClient = createAdminClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-  const { data: { users }, error: listError } = await adminClient.auth.admin.listUsers()
+  if (!supabaseUrl || !supabaseServiceRoleKey) {
+    return NextResponse.json(
+      { error: "Server configuration error: missing Supabase credentials" },
+      { status: 500 }
+    )
+  }
+
+  const adminClient = createAdminClient(supabaseUrl, supabaseServiceRoleKey)
+
+  const {
+    data: { users },
+    error: listError,
+  } = await adminClient.auth.admin.listUsers()
   if (listError) {
     return NextResponse.json({ error: "Failed to look up users" }, { status: 500 })
   }
@@ -65,7 +77,10 @@ export async function POST(request: Request) {
     .single()
 
   if (existing) {
-    return NextResponse.json({ error: "Пользователь уже является участником доски" }, { status: 409 })
+    return NextResponse.json(
+      { error: "Пользователь уже является участником доски" },
+      { status: 409 }
+    )
   }
 
   // Добавляем пользователя в участники с ролью "member"

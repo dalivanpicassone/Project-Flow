@@ -56,7 +56,11 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
     <>
       <div className="group relative flex flex-col rounded-xl bg-[#111118] border border-[#1a1a24] hover:border-[#252535] transition-all duration-200 overflow-hidden hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:-translate-y-px">
         {/* Clickable link overlay */}
-        <Link href={`/board/${board.id}`} className="absolute inset-0 z-0" aria-label={board.title} />
+        <Link
+          href={`/board/${board.id}`}
+          className="absolute inset-0 z-0"
+          aria-label={board.title}
+        />
 
         {/* Top accent bar */}
         <div className="h-[3px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
@@ -151,7 +155,10 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive hover:bg-destructive/90"
+            >
               Удалить
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr"
 import { type NextRequest, NextResponse } from "next/server"
 
 /**
- * Next.js middleware для защиты маршрутов через Supabase Auth.
+ * Next.js proxy (ранее middleware) для защиты маршрутов через Supabase Auth.
  *
  * Логика:
  * - Неаутентифицированные пользователи перенаправляются на /login
@@ -10,7 +10,7 @@ import { type NextRequest, NextResponse } from "next/server"
  * - Аутентифицированные пользователи перенаправляются на /dashboard
  *   при попытке зайти на страницы входа/регистрации.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

@@ -2,6 +2,7 @@ import { BoardList } from "@/components/board/BoardList"
 import { CreateBoardDialog } from "@/components/board/CreateBoardDialog"
 import { DashboardStats } from "@/components/dashboard/DashboardStats"
 
+export const dynamic = "force-dynamic"
 export const metadata = { title: "Мои доски — ProjectFlow" }
 
 export default function DashboardPage() {

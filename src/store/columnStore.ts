@@ -24,11 +24,12 @@ export const useColumnStore = create<ColumnState>((set) => ({
   isLoading: false,
   setColumns: (columns) => set({ columns }),
   // Добавляет колонку, избегая дубликатов (напр., если realtime-событие пришло раньше ответа)
-  addColumn: (column) => set((state) => ({
-    columns: state.columns.some((c) => c.id === column.id)
-      ? state.columns
-      : [...state.columns, column],
-  })),
+  addColumn: (column) =>
+    set((state) => ({
+      columns: state.columns.some((c) => c.id === column.id)
+        ? state.columns
+        : [...state.columns, column],
+    })),
   // Обновляет колонку по id, создавая новый объект (иммютабельность)
   updateColumn: (id, updates) =>
     set((state) => ({

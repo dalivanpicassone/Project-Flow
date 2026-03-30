@@ -14,7 +14,9 @@ export function DashboardStats() {
   const thisWeek = boards.filter(
     (b) => new Date(b.created_at) >= startOfWeek(now, { weekStartsOn: 1 })
   ).length
-  const withDescription = boards.filter((b) => b.description && b.description.trim().length > 0).length
+  const withDescription = boards.filter(
+    (b) => b.description && b.description.trim().length > 0
+  ).length
 
   const stats = [
     {
@@ -54,9 +56,10 @@ export function DashboardStats() {
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
-        ))}
+        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
+        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
+        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
+        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
       </div>
     )
   }

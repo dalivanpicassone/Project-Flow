@@ -24,11 +24,10 @@ export const useCardStore = create<CardState>((set) => ({
   isLoading: false,
   setCards: (cards) => set({ cards }),
   // Добавляет карточку, избегая дубликатов (напр., если realtime-событие пришло раньше ответа)
-  addCard: (card) => set((state) => ({
-    cards: state.cards.some((c) => c.id === card.id)
-      ? state.cards
-      : [...state.cards, card],
-  })),
+  addCard: (card) =>
+    set((state) => ({
+      cards: state.cards.some((c) => c.id === card.id) ? state.cards : [...state.cards, card],
+    })),
   // Обновляет карточку по id, создавая новый объект (иммютабельность)
   updateCard: (id, updates) =>
     set((state) => ({

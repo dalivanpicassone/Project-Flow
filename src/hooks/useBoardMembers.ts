@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { useEffect, useMemo, useState } from "react"
 
 export interface BoardMember {
   id: string
@@ -94,10 +94,7 @@ export function useBoardMembers(boardId: string) {
 
   /** Удаляет участника из доски по его идентификатору (не user_id). */
   const removeMember = async (memberId: string): Promise<{ error: string | null }> => {
-    const { error } = await supabase
-      .from("board_members")
-      .delete()
-      .eq("id", memberId)
+    const { error } = await supabase.from("board_members").delete().eq("id", memberId)
 
     if (error) return { error: error.message }
     setMembers((prev) => prev.filter((m) => m.id !== memberId))
@@ -109,10 +106,7 @@ export function useBoardMembers(boardId: string) {
     memberId: string,
     role: "owner" | "member"
   ): Promise<{ error: string | null }> => {
-    const { error } = await supabase
-      .from("board_members")
-      .update({ role })
-      .eq("id", memberId)
+    const { error } = await supabase.from("board_members").update({ role }).eq("id", memberId)
 
     if (error) return { error: error.message }
     setMembers((prev) => prev.map((m) => (m.id === memberId ? { ...m, role } : m)))

@@ -1,5 +1,7 @@
 import { Sidebar } from "@/components/layout/Sidebar"
 
+export const dynamic = "force-dynamic"
+
 export default function ProfileLayout({
   children,
 }: {
@@ -8,9 +10,7 @@ export default function ProfileLayout({
   return (
     <div className="flex min-h-screen bg-[#0d0d14]">
       <Sidebar />
-      <div className="flex flex-col flex-1 min-w-0">
-        {children}
-      </div>
+      <div className="flex flex-col flex-1 min-w-0">{children}</div>
     </div>
   )
 }

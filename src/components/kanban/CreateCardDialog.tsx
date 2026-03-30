@@ -79,12 +79,16 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
             <Label htmlFor="card-priority">Приоритет</Label>
             <Select value={priority} onValueChange={(value) => setPriority(value ?? "medium")}>
               <SelectTrigger id="card-priority">
-                <SelectValue placeholder={{
-                  critical: "🔴 Критично",
-                  high: "🟠 Высокий",
-                  medium: "🟡 Средний",
-                  low: "🟢 Низкий",
-                }[priority] ?? "🟡 Средний"} />
+                <SelectValue
+                  placeholder={
+                    {
+                      critical: "🔴 Критично",
+                      high: "🟠 Высокий",
+                      medium: "🟡 Средний",
+                      low: "🟢 Низкий",
+                    }[priority] ?? "🟡 Средний"
+                  }
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="critical">🔴 Критично</SelectItem>

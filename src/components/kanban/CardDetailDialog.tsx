@@ -333,10 +333,12 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 </Label>
                 <Select value={card.priority} onValueChange={handlePriorityChange}>
                   <SelectTrigger className="h-9">
-                    <SelectValue placeholder={(() => {
-                      const opt = priorityOptions.find((o) => o.value === card.priority)
-                      return opt ? `${opt.emoji} ${opt.label}` : "Выберите"
-                    })()} />
+                    <SelectValue
+                      placeholder={(() => {
+                        const opt = priorityOptions.find((o) => o.value === card.priority)
+                        return opt ? `${opt.emoji} ${opt.label}` : "Выберите"
+                      })()}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {priorityOptions.map((opt) => (

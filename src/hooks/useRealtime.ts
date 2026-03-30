@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useMemo } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { useColumnStore } from "@/store/columnStore"
 import { useCardStore } from "@/store/cardStore"
+import { useColumnStore } from "@/store/columnStore"
 import type { Database } from "@/types/database"
+import { useEffect, useMemo, useRef } from "react"
 
 type Column = Database["public"]["Tables"]["columns"]["Row"]
 type Card = Database["public"]["Tables"]["cards"]["Row"]
@@ -12,15 +12,22 @@ type Card = Database["public"]["Tables"]["cards"]["Row"]
 /**
  * Хук для подписки на реальновременные изменения колонок и карточек через Supabase Realtime.
  * Автоматически синхронизирует локальные хранилища без полной перезагрузки.
+ *
+ * ИСПРАВЛЕНИЕ: защита от утечки памяти при быстром размонтировании.
  */
 export function useRealtime(boardId: string) {
   const { addColumn, updateColumn, removeColumn } = useColumnStore()
   const { addCard, updateCard, removeCard } = useCardStore()
   // Мемоизируем клиент, чтобы не создавать новые подписки при каждом рендере
   const supabase = useMemo(() => createClient(), [])
+  // Ref для отслеживания размонтирования (защита от утечки памяти)
+  const isUnmountedRef = useRef(false)
 
   useEffect(() => {
     if (!boardId) return
+
+    // Сбрасываем флаг при монтировании
+    isUnmountedRef.current = false
 
     // Подписка на изменения колонок доски
     const columnsChannel = supabase
@@ -34,6 +41,9 @@ export function useRealtime(boardId: string) {
           filter: `board_id=eq.${boardId}`,
         },
         (payload) => {
+          // Защита от обновления после размонтирования
+          if (isUnmountedRef.current) return
+
           if (payload.eventType === "INSERT") {
             addColumn(payload.new as Column)
           } else if (payload.eventType === "UPDATE") {
@@ -57,6 +67,9 @@ export function useRealtime(boardId: string) {
           filter: `board_id=eq.${boardId}`,
         },
         (payload) => {
+          // Защита от обновления после размонтирования
+          if (isUnmountedRef.current) return
+
           if (payload.eventType === "INSERT") {
             addCard(payload.new as Card)
           } else if (payload.eventType === "UPDATE") {
@@ -68,8 +81,9 @@ export function useRealtime(boardId: string) {
       )
       .subscribe()
 
-    // Отписываемся от обоих каналов при размонтировании компонента
+    // Отписываемся от обоих каналов при размонтировании
     return () => {
+      isUnmountedRef.current = true
       supabase.removeChannel(columnsChannel)
       supabase.removeChannel(cardsChannel)
     }
