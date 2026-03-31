@@ -54,7 +54,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
 
   return (
     <>
-      <div className="group relative flex flex-col rounded-xl bg-[#111118] border border-[#1a1a24] hover:border-[#252535] transition-all duration-200 overflow-hidden hover:shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:-translate-y-px">
+      <div className="group relative flex flex-col rounded-xl bg-card border border-border hover:border-muted-foreground/30 transition-all duration-200 overflow-hidden hover:shadow-lg hover:-translate-y-px">
         {/* Clickable link overlay */}
         <Link
           href={`/board/${board.id}`}
@@ -81,11 +81,11 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
 
             {/* Title + description */}
             <div className="flex-1 min-w-0 pt-0.5">
-              <h3 className="text-sm font-semibold text-[#e2e8f0] leading-tight line-clamp-2">
+              <h3 className="text-sm font-semibold text-foreground leading-tight line-clamp-2">
                 {board.title}
               </h3>
               {board.description && (
-                <p className="text-xs text-[#4b5563] mt-1.5 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
                   {board.description}
                 </p>
               )}
@@ -128,9 +128,9 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center gap-1.5 pt-2.5 border-t border-[#141420] mt-auto">
-            <Clock className="h-3 w-3 text-[#374151] shrink-0" />
-            <span className="text-xs text-[#374151] tabular-nums">
+          <div className="flex items-center gap-1.5 pt-2.5 border-t border-border mt-auto">
+            <Clock className="h-3 w-3 text-muted-foreground/60 shrink-0" />
+            <span className="text-xs text-muted-foreground/60 tabular-nums">
               {formatDistanceToNow(new Date(board.created_at), { addSuffix: true, locale: ru })}
             </span>
           </div>

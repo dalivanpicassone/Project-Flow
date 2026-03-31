@@ -30,28 +30,35 @@ export function useBoardMembers(boardId: string) {
 
   /**
    * Загружает участников доски вместе с их профилями.
-   * Выполняет два запроса: сначала участники, затем профили по user_id.
+   * Включает владельца доски (boards.owner_id), который не хранится в board_members.
    */
   const fetchMembers = async () => {
     setIsLoading(true)
 
-    // Запрашиваем список участников доски
-    const { data: memberData, error } = await supabase
-      .from("board_members")
-      .select("id, user_id, role")
-      .eq("board_id", boardId)
+    // Получаем owner_id доски и список участников параллельно
+    const [boardResult, membersResult] = await Promise.all([
+      supabase.from("boards").select("owner_id").eq("id", boardId).single(),
+      supabase.from("board_members").select("id, user_id, role").eq("board_id", boardId),
+    ])
 
-    if (error || !memberData) {
+    if (membersResult.error) {
       setIsLoading(false)
       return
     }
 
-    // Запрашиваем профили для каждого участника
-    const userIds = memberData.map((m) => m.user_id)
+    const memberData = membersResult.data ?? []
+    const ownerId = boardResult.data?.owner_id ?? null
+
+    // Собираем уникальные user_id: участники + владелец (если его нет в board_members)
+    const memberUserIds = new Set(memberData.map((m) => m.user_id))
+    const ownerAlreadyMember = ownerId ? memberUserIds.has(ownerId) : true
+    const allUserIds =
+      ownerId && !ownerAlreadyMember ? [...memberUserIds, ownerId] : [...memberUserIds]
+
     const { data: profiles } = await supabase
       .from("profiles")
       .select("id, full_name, avatar_url")
-      .in("id", userIds)
+      .in("id", allUserIds)
 
     // Объединяем данные участников с их профилями
     const enriched: BoardMember[] = memberData.map((m) => {
@@ -63,11 +70,25 @@ export function useBoardMembers(boardId: string) {
         profile: {
           full_name: profile?.full_name ?? null,
           avatar_url: profile?.avatar_url ?? null,
-          // Используем user_id как запасное значение, если email недоступен
           email: m.user_id,
         },
       }
     })
+
+    // Добавляем владельца, если он не в board_members
+    if (ownerId && !ownerAlreadyMember) {
+      const ownerProfile = profiles?.find((p) => p.id === ownerId)
+      enriched.unshift({
+        id: `owner-${ownerId}`,
+        user_id: ownerId,
+        role: "owner",
+        profile: {
+          full_name: ownerProfile?.full_name ?? null,
+          avatar_url: ownerProfile?.avatar_url ?? null,
+          email: ownerId,
+        },
+      })
+    }
 
     setMembers(enriched)
     setIsLoading(false)

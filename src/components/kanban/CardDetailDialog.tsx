@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -23,7 +22,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
+import { useBoardMembers } from "@/hooks/useBoardMembers"
 import { useCards } from "@/hooks/useCards"
 import { type UpdateCardInput, updateCardSchema } from "@/lib/validations/card.schema"
 import { useColumnStore } from "@/store/columnStore"
@@ -32,7 +33,7 @@ import type { Priority } from "@/types/database"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { differenceInDays, format, formatDistanceToNow } from "date-fns"
 import { ru } from "date-fns/locale"
-import { AlignLeft, CalendarDays, Clock, Layers, Plus, Tag, Trash2, X } from "lucide-react"
+import { AlignLeft, CalendarDays, Clock, Layers, Plus, Tag, Trash2, User, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -52,6 +53,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const { updateCardById, deleteCard } = useCards(boardId)
+  const { members } = useBoardMembers(boardId)
   const columns = useColumnStore((s) => s.columns)
 
   const {
@@ -117,6 +119,10 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
     await handleFieldSave("due_date", value || null)
   }
 
+  const handleAssigneeChange = async (value: string | null) => {
+    await updateCardById(card.id, { assignee_id: value || null })
+  }
+
   const handleAddLabel = async () => {
     const trimmed = labelInput.trim()
     if (!trimmed) return
@@ -147,43 +153,56 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <div className="flex items-start justify-between gap-3 pr-6">
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent
+          side="right"
+          className="w-[45vw] min-w-[480px] max-w-none sm:max-w-none h-full overflow-y-auto bg-background border-l border-border flex flex-col gap-0 p-0"
+          showCloseButton={false}
+        >
+          <SheetHeader className="px-6 pt-5 pb-4 border-b border-border shrink-0">
+            <div className="flex items-start justify-between gap-3">
               {isEditingTitle ? (
                 <form onSubmit={handleSubmit(handleTitleSave)} className="flex-1 flex gap-2">
                   <Input
                     {...register("title")}
-                    className="text-lg font-semibold"
+                    className="text-base font-semibold bg-muted border-border text-foreground"
                     autoFocus
                     onBlur={handleSubmit(handleTitleSave)}
                   />
                 </form>
               ) : (
-                <DialogTitle
-                  className="text-lg leading-snug cursor-pointer hover:text-blue-700 transition-colors flex-1"
+                <SheetTitle
+                  className="text-base font-semibold leading-snug cursor-pointer hover:text-brand transition-colors flex-1 text-foreground"
                   onClick={() => setIsEditingTitle(true)}
                 >
                   {card.title}
-                </DialogTitle>
+                </SheetTitle>
               )}
+              <button
+                type="button"
+                onClick={() => onOpenChange(false)}
+                className="p-1.5 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors shrink-0 mt-0.5"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
 
             {/* Column badge */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1.5">
               <Layers className="h-3.5 w-3.5" />
               <span>в колонке</span>
-              <Badge variant="secondary">{currentColumn?.title ?? "—"}</Badge>
+              <Badge variant="secondary" className="bg-muted text-muted-foreground border-border">
+                {currentColumn?.title ?? "—"}
+              </Badge>
             </div>
-          </DialogHeader>
+          </SheetHeader>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6 py-5 flex-1">
             {/* ── Left column: main content ─────────────────────── */}
             <div className="sm:col-span-2 space-y-5">
               {/* Description */}
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <AlignLeft className="h-4 w-4" />
                   Описание
                 </div>
@@ -212,7 +231,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 ) : (
                   <button
                     type="button"
-                    className="min-h-16 w-full p-3 rounded-md bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors text-sm text-gray-700 whitespace-pre-wrap text-left"
+                    className="min-h-16 w-full p-3 rounded-md bg-muted border border-border cursor-pointer hover:bg-muted/80 transition-colors text-sm text-muted-foreground whitespace-pre-wrap text-left"
                     onClick={() => setIsEditingDescription(true)}
                   >
                     {card.description || (
@@ -226,7 +245,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
 
               {/* Labels */}
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <Tag className="h-4 w-4" />
                   Метки
                 </div>
@@ -266,7 +285,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
               {/* PM Cycle Time */}
               <Separator />
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <Clock className="h-4 w-4" />
                   Время в работе
                 </div>
@@ -292,7 +311,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   {cycleDays > 7 && (
                     <Badge
                       variant="outline"
-                      className="bg-red-50 text-red-600 border-red-200 text-xs"
+                      className="bg-red-50 text-red-600 border-red-200 text-xs dark:bg-red-950/40 dark:text-red-400 dark:border-red-900"
                     >
                       ⚠ Застряла
                     </Badge>
@@ -374,6 +393,35 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 </Select>
               </div>
 
+              {/* Assignee */}
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="assignee-select"
+                  className="text-xs text-muted-foreground uppercase tracking-wide flex items-center gap-1"
+                >
+                  <User className="h-3.5 w-3.5" />
+                  Исполнитель
+                </Label>
+                <Select value={card.assignee_id ?? ""} onValueChange={handleAssigneeChange}>
+                  <SelectTrigger className="h-9">
+                    <SelectValue placeholder="Не назначен">
+                      {card.assignee_id
+                        ? (members.find((m) => m.user_id === card.assignee_id)?.profile.full_name ??
+                          "Участник")
+                        : "Не назначен"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Не назначен</SelectItem>
+                    {members.map((m) => (
+                      <SelectItem key={m.user_id} value={m.user_id}>
+                        {m.profile.full_name ?? "Участник"}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Due date */}
               <div className="space-y-1.5">
                 <Label
@@ -398,7 +446,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full text-red-500 hover:text-red-600 hover:bg-red-50"
+                className="w-full text-red-500 hover:text-red-600 hover:bg-red-950/30"
                 onClick={() => setShowDeleteDialog(true)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -406,8 +454,8 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>

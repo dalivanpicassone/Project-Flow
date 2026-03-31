@@ -9,8 +9,8 @@ export default function DashboardPage() {
   return (
     <>
       {/* Topbar */}
-      <div className="h-12 border-b border-[#141420] px-5 flex items-center justify-between shrink-0">
-        <h1 className="text-sm font-semibold text-[#f1f5f9]">Мои доски</h1>
+      <div className="h-12 border-b border-border px-5 flex items-center justify-between shrink-0">
+        <h1 className="text-sm font-semibold text-foreground">Мои доски</h1>
         <CreateBoardDialog />
       </div>
 
@@ -22,8 +22,8 @@ export default function DashboardPage() {
         {/* Board grid */}
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <h2 className="text-xs font-semibold text-[#9ca3af]">Активные доски</h2>
-            <div className="flex-1 h-px bg-[#1a1a24]" />
+            <h2 className="text-xs font-semibold text-muted-foreground">Активные доски</h2>
+            <div className="flex-1 h-px bg-border" />
           </div>
           <BoardList />
         </div>

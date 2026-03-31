@@ -67,12 +67,12 @@ export default function ProfilePage() {
   return (
     <>
       {/* Topbar */}
-      <div className="h-12 border-b border-[#141420] px-5 flex items-center shrink-0">
+      <div className="h-12 border-b border-border px-5 flex items-center shrink-0">
         <Button
           variant="ghost"
           size="sm"
           onClick={() => router.push("/dashboard")}
-          className="text-[#9ca3af] hover:text-[#f1f5f9] h-[30px] px-2"
+          className="text-muted-foreground hover:text-foreground h-[30px] px-2"
         >
           <ArrowLeft className="mr-1 h-4 w-4" />
           Назад
@@ -85,7 +85,7 @@ export default function ProfilePage() {
             <CardHeader>
               <div className="flex items-center gap-4">
                 <Avatar className="h-14 w-14">
-                  <AvatarFallback className="bg-[#6366f1]/10 text-[#818cf8] text-xl font-semibold">
+                  <AvatarFallback className="bg-brand/10 text-brand text-xl font-semibold">
                     {initials}
                   </AvatarFallback>
                 </Avatar>
@@ -109,14 +109,14 @@ export default function ProfilePage() {
 
                 <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" value={user?.email ?? ""} disabled className="bg-[#16161e]" />
+                  <Input id="email" value={user?.email ?? ""} disabled className="bg-muted" />
                   <p className="text-xs text-muted-foreground">Email изменить нельзя</p>
                 </div>
 
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-[#6366f1] hover:bg-[#4f52d4]"
+                  className="w-full bg-brand hover:bg-brand/90 text-brand-foreground"
                 >
                   <Save className="mr-2 h-4 w-4" />
                   {isSubmitting ? "Сохранение..." : saved ? "✓ Сохранено!" : "Сохранить"}

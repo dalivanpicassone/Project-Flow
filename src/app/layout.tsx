@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/layout/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
 import type { Metadata } from "next"
 import { Manrope } from "next/font/google"
@@ -19,10 +20,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={`${manrope.variable} dark`}>
+    <html lang="ru" className={manrope.variable} suppressHydrationWarning>
       <body>
-        {children}
-        <Toaster />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )

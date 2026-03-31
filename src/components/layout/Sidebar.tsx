@@ -1,5 +1,6 @@
 "use client"
 
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,7 +30,7 @@ export function Sidebar() {
   const isDashboardActive = pathname.startsWith("/dashboard")
 
   return (
-    <div className="w-[52px] flex-shrink-0 bg-[#0a0a12] border-r border-[#141420] flex flex-col items-center py-3 gap-1.5 min-h-screen">
+    <div className="w-[52px] flex-shrink-0 bg-sidebar border-r border-sidebar-border flex flex-col items-center py-3 gap-1.5 min-h-screen">
       {/* Logo */}
       <Link
         href="/dashboard"
@@ -39,7 +40,7 @@ export function Sidebar() {
       </Link>
 
       {/* Divider */}
-      <div className="w-6 h-px bg-[#1a1a24] my-1" />
+      <div className="w-6 h-px bg-sidebar-border my-1" />
 
       {/* Nav items */}
       <Link
@@ -52,17 +53,20 @@ export function Sidebar() {
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[18px] bg-[#6366f1] rounded-r" />
         )}
         <LayoutGrid
-          className={`h-[18px] w-[18px] ${isDashboardActive ? "text-[#818cf8]" : "text-[#4b5563] hover:text-[#9ca3af]"}`}
+          className={`h-[18px] w-[18px] ${isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/40 hover:text-sidebar-foreground"}`}
         />
       </Link>
 
       {/* Spacer */}
       <div className="mt-auto" />
 
+      {/* Theme toggle */}
+      <ThemeToggle />
+
       {/* User avatar */}
       {!isLoading && user && (
         <DropdownMenu>
-          <DropdownMenuTrigger className="w-7 h-7 rounded-full bg-[#1e1e2a] border border-[#2a2a3a] flex items-center justify-center cursor-pointer hover:border-[#3a3a4a] transition-colors">
+          <DropdownMenuTrigger className="w-7 h-7 rounded-full bg-sidebar-accent border border-sidebar-border flex items-center justify-center cursor-pointer hover:border-sidebar-ring transition-colors">
             <span className="text-[#818cf8] text-xs font-semibold">{initial}</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" side="right" className="w-40">

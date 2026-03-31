@@ -69,7 +69,7 @@ export function DashboardStats() {
       {stats.map(({ label, value, Icon, iconBg, iconColor, hint }) => (
         <div
           key={label}
-          className="rounded-xl border border-[#1a1a24] bg-[#111118] p-4 flex flex-col gap-3 transition-colors hover:border-white/[0.1]"
+          className="rounded-xl border border-border bg-card p-4 flex flex-col gap-3 transition-colors hover:border-muted-foreground/20"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-muted-foreground">{label}</span>

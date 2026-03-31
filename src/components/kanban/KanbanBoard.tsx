@@ -1,6 +1,7 @@
 "use client"
 
 import { Skeleton } from "@/components/ui/skeleton"
+import { useBoardMembers } from "@/hooks/useBoardMembers"
 import { useCards } from "@/hooks/useCards"
 import { useColumns } from "@/hooks/useColumns"
 import { useRealtime } from "@/hooks/useRealtime"
@@ -19,7 +20,7 @@ import {
   useSensors,
 } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { CreateColumnDialog } from "./CreateColumnDialog"
 import { KanbanCard } from "./KanbanCard"
 import { KanbanColumn } from "./KanbanColumn"
@@ -29,11 +30,23 @@ type CardType = Database["public"]["Tables"]["cards"]["Row"]
 interface KanbanBoardProps {
   boardId: string
   onCardClick: (card: CardType) => void
+  myTasksOnly?: boolean
+  currentUserId?: string
 }
 
-export function KanbanBoard({ boardId, onCardClick }: KanbanBoardProps) {
+export function KanbanBoard({
+  boardId,
+  onCardClick,
+  myTasksOnly,
+  currentUserId,
+}: KanbanBoardProps) {
   useRealtime(boardId)
   const [activeCard, setActiveCard] = useState<CardType | null>(null)
+  const { members } = useBoardMembers(boardId)
+  const memberProfilesMap = useMemo(
+    () => Object.fromEntries(members.map((m) => [m.user_id, m.profile])),
+    [members]
+  )
   const {
     columns,
     isLoading: colsLoading,
@@ -42,12 +55,16 @@ export function KanbanBoard({ boardId, onCardClick }: KanbanBoardProps) {
     deleteColumn,
     reorderColumns,
   } = useColumns(boardId)
-  const { cards, isLoading: cardsLoading, createCard, moveCard } = useCards(boardId)
+  const { cards, isLoading: cardsLoading, createCard, moveCard, updateCardById } = useCards(boardId)
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }))
 
-  const getColumnCards = (columnId: string) =>
-    cards.filter((c) => c.column_id === columnId).sort((a, b) => a.position - b.position)
+  const getColumnCards = (columnId: string) => {
+    const base = cards.filter((c) => c.column_id === columnId)
+    const filtered =
+      myTasksOnly && currentUserId ? base.filter((c) => c.assignee_id === currentUserId) : base
+    return filtered.sort((a, b) => a.position - b.position)
+  }
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
     if (event.active.data.current?.type === "card") {
@@ -163,6 +180,10 @@ export function KanbanBoard({ boardId, onCardClick }: KanbanBoardProps) {
             onCardClick={onCardClick}
             onDeleteColumn={deleteColumn}
             onUpdateColumn={updateColumnById}
+            onUpdateCard={async (id, data) => {
+              await updateCardById(id, data)
+            }}
+            memberProfiles={memberProfilesMap}
           />
         ))}
 
@@ -171,11 +192,14 @@ export function KanbanBoard({ boardId, onCardClick }: KanbanBoardProps) {
 
       <DragOverlay>
         {activeCard && (
-          <div className="rotate-1 opacity-80 shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
+          <div className="rotate-2 scale-[1.04] opacity-95 shadow-[0_24px_64px_rgba(0,0,0,0.75)] cursor-grabbing">
             <KanbanCard
               card={activeCard}
               onClick={() => {}}
               colColor={columns.find((c) => c.id === activeCard.column_id)?.color ?? "#6b7280"}
+              assigneeProfile={
+                activeCard.assignee_id ? memberProfilesMap[activeCard.assignee_id] : undefined
+              }
             />
           </div>
         )}

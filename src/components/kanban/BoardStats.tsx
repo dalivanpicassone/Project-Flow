@@ -42,7 +42,9 @@ export function BoardStats() {
                   <Badge
                     variant="outline"
                     className={`cursor-default ${
-                      exceeded ? "bg-red-50 text-red-700 border-red-200" : "bg-white text-gray-600"
+                      exceeded
+                        ? "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900"
+                        : "bg-card text-muted-foreground"
                     }`}
                   >
                     {col.title}: {count}
@@ -65,7 +67,7 @@ export function BoardStats() {
             <TooltipTrigger>
               <Badge
                 variant="outline"
-                className="bg-red-50 text-red-600 border-red-200 gap-1 cursor-default"
+                className="bg-red-50 text-red-600 border-red-200 gap-1 cursor-default dark:bg-red-950/40 dark:text-red-400 dark:border-red-900"
               >
                 <AlertTriangle className="h-3 w-3" />
                 {overdue} просрочено
@@ -80,7 +82,7 @@ export function BoardStats() {
             <TooltipTrigger>
               <Badge
                 variant="outline"
-                className="bg-orange-50 text-orange-600 border-orange-200 gap-1 cursor-default"
+                className="bg-orange-50 text-orange-600 border-orange-200 gap-1 cursor-default dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-900"
               >
                 <Clock className="h-3 w-3" />
                 {stuck} застряло
@@ -95,7 +97,7 @@ export function BoardStats() {
             <TooltipTrigger>
               <Badge
                 variant="outline"
-                className="bg-yellow-50 text-yellow-700 border-yellow-200 gap-1 cursor-default"
+                className="bg-yellow-50 text-yellow-700 border-yellow-200 gap-1 cursor-default dark:bg-yellow-950/40 dark:text-yellow-400 dark:border-yellow-900"
               >
                 <AlertTriangle className="h-3 w-3" />
                 {wipViolations} WIP
@@ -108,7 +110,7 @@ export function BoardStats() {
         {overdue === 0 && stuck === 0 && wipViolations === 0 && total > 0 && (
           <Badge
             variant="outline"
-            className="bg-green-50 text-green-700 border-green-200 gap-1 cursor-default"
+            className="bg-green-50 text-green-700 border-green-200 gap-1 cursor-default dark:bg-green-950/40 dark:text-green-400 dark:border-green-900"
           >
             <CheckCircle2 className="h-3 w-3" />
             Всё в порядке
