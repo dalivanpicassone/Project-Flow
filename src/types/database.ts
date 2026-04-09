@@ -144,6 +144,73 @@ export type Database = {
         }
         Relationships: []
       }
+      card_comments: {
+        Row: {
+          id: string
+          card_id: string
+          author_id: string
+          author_name: string | null
+          body: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          card_id: string
+          author_id: string
+          author_name?: string | null
+          body: string
+        }
+        Update: {
+          card_id?: string
+          author_id?: string
+          author_name?: string | null
+          body?: string
+        }
+        Relationships: []
+      }
+      card_checklists: {
+        Row: {
+          id: string
+          card_id: string
+          title: string
+          position: number
+          created_at: string
+        }
+        Insert: {
+          card_id: string
+          title?: string
+          position?: number
+        }
+        Update: {
+          card_id?: string
+          title?: string
+          position?: number
+        }
+        Relationships: []
+      }
+      card_checklist_items: {
+        Row: {
+          id: string
+          checklist_id: string
+          title: string
+          is_checked: boolean
+          position: number
+          created_at: string
+        }
+        Insert: {
+          checklist_id: string
+          title: string
+          is_checked?: boolean
+          position?: number
+        }
+        Update: {
+          checklist_id?: string
+          title?: string
+          is_checked?: boolean
+          position?: number
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
