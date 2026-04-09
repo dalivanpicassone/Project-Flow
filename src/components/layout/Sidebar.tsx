@@ -54,21 +54,20 @@ export function Sidebar() {
 
         <Link
           href="/dashboard"
-          className="relative flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors duration-150"
+          className="group relative flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors duration-150 hover:bg-sidebar-accent"
           style={isDashboardActive ? { background: "#6366f115" } : undefined}
-          title="Мои доски"
         >
           {isDashboardActive && (
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#6366f1] rounded-r" />
           )}
           <LayoutGrid
             className={`h-[18px] w-[18px] flex-shrink-0 ${
-              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/40"
+              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/40 group-hover:text-sidebar-foreground/70"
             }`}
           />
           <span
             className={`text-sm font-medium ${
-              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/50"
+              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground"
             }`}
           >
             Мои доски
