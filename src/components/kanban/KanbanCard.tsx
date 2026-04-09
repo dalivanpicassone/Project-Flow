@@ -120,7 +120,7 @@ export function KanbanCard({
       <div
         {...attributes}
         {...dragListeners}
-        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border border-l-[3px] hover:border-muted-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 px-3.5 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
+        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border border-l-[3px] hover:border-muted-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow,border-color] duration-200 px-3.5 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
         style={{ borderLeftColor: colColor }}
         onClick={() => {
           if (isEditingTitle || isEditingDueDate) return

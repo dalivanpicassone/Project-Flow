@@ -192,7 +192,7 @@ export function KanbanBoard({
 
       <DragOverlay>
         {activeCard && (
-          <div className="rotate-2 scale-[1.04] opacity-95 shadow-[0_24px_64px_rgba(0,0,0,0.75)] cursor-grabbing">
+          <div className="rotate-2 scale-[1.04] opacity-95 shadow-[0_24px_64px_rgba(0,0,0,0.75)] cursor-grabbing transition-transform duration-150">
             <KanbanCard
               card={activeCard}
               onClick={() => {}}
