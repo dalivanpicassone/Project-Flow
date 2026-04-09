@@ -44,13 +44,13 @@ function MiniAvatar({ profile }: { profile: AssigneeProfile }) {
       <img
         src={profile.avatar_url}
         alt={profile.full_name ?? "Исполнитель"}
-        className="w-5 h-5 rounded-full object-cover ring-1 ring-border shrink-0"
+        className="w-5 h-5 rounded-full object-cover ring-2 ring-card shrink-0"
       />
     )
   }
 
   return (
-    <div className="w-5 h-5 rounded-full bg-muted ring-1 ring-border flex items-center justify-center shrink-0">
+    <div className="w-5 h-5 rounded-full bg-muted ring-2 ring-card flex items-center justify-center shrink-0">
       <span className="text-[8px] font-semibold text-muted-foreground leading-none">
         {initials}
       </span>
@@ -108,7 +108,7 @@ export function KanbanCard({
     return (
       <div ref={setNodeRef} style={style}>
         <div
-          className="w-full rounded-lg border-2 border-dashed border-brand/40 bg-brand/5 animate-pulse"
+          className="w-full rounded-xl border-2 border-dashed border-brand/40 bg-brand/5 animate-pulse"
           style={{ minHeight: "60px", borderLeftWidth: "3px", borderLeftColor: colColor }}
         />
       </div>
@@ -120,7 +120,7 @@ export function KanbanCard({
       <div
         {...attributes}
         {...dragListeners}
-        className="group relative w-full cursor-pointer rounded-lg bg-card border border-border border-l-2 hover:border-muted-foreground/30 hover:shadow-md transition-all p-3"
+        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border border-l-[3px] hover:border-muted-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 px-3.5 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
         style={{ borderLeftColor: colColor }}
         onClick={() => {
           if (isEditingTitle || isEditingDueDate) return
