@@ -83,7 +83,7 @@ export function KanbanColumn({
         style={isOver ? { borderColor: "#6366f150", boxShadow: "0 0 0 1px #6366f120" } : undefined}
       >
         {/* Top color bar */}
-        <div className="h-[3px] w-full rounded-t-xl" style={{ backgroundColor: colColor }} />
+        <div className="h-[3px] w-full rounded-t-2xl" style={{ backgroundColor: colColor }} />
 
         {/* Column header */}
         <div className="px-3.5 py-3 border-b border-border flex items-center gap-2">
