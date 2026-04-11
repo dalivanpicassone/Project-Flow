@@ -45,5 +45,8 @@ next-env.d.ts
 # IDE / tooling
 .superpowers/
 
+# Supabase CLI temp files
+supabase/.temp/
+
 # Локальная документация
 /docs/

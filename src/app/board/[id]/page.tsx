@@ -41,15 +41,15 @@ export default function BoardPage() {
   return (
     <>
       {/* Topbar */}
-      <div className="h-12 border-b border-border px-5 flex items-center justify-between shrink-0 gap-4">
+      <div className="h-14 border-b border-border px-5 flex items-center justify-between shrink-0 gap-4">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => router.push("/dashboard")}
-            className="text-muted-foreground hover:text-foreground h-[30px] px-2"
+            className="text-muted-foreground hover:text-foreground h-8 px-2.5 text-xs font-medium"
           >
-            <ArrowLeft className="mr-1 h-4 w-4" />
+            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
             Все доски
           </Button>
 

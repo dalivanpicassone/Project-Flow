@@ -108,8 +108,8 @@ export function KanbanCard({
     return (
       <div ref={setNodeRef} style={style}>
         <div
-          className="w-full rounded-xl border-2 border-dashed border-brand/40 bg-brand/5 animate-pulse"
-          style={{ minHeight: "60px", borderLeftWidth: "3px", borderLeftColor: colColor }}
+          className="w-full rounded-xl border border-dashed border-brand/30 bg-brand/[0.04] animate-pulse"
+          style={{ minHeight: "64px" }}
         />
       </div>
     )
@@ -120,130 +120,134 @@ export function KanbanCard({
       <div
         {...attributes}
         {...dragListeners}
-        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border border-l-[3px] hover:border-muted-foreground/30 hover:shadow-md hover:-translate-y-0.5 transition-[transform,box-shadow,border-color] duration-200 px-3.5 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.2)]"
-        style={{ borderLeftColor: colColor }}
+        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border hover:border-emerald-200 dark:hover:border-emerald-800 hover:-translate-y-0.5 transition-[transform,box-shadow,border-color] duration-200 shadow-card hover:shadow-[0_4px_12px_rgba(5,150,105,0.10)] overflow-hidden"
         onClick={() => {
           if (isEditingTitle || isEditingDueDate) return
           onClick(card)
         }}
       >
-        {/* Top: thin priority strip + label chips */}
-        {hasTopMeta && (
-          <div className="flex items-center gap-1.5 mb-2">
-            {priorityColor && (
-              <span
-                className="inline-block h-[3px] w-6 rounded-full shrink-0"
-                style={{ backgroundColor: priorityColor }}
-                title={card.priority ?? undefined}
-              />
-            )}
-            {card.labels?.map((label) => (
-              <span
-                key={label}
-                className="inline-block text-[10px] leading-4 text-muted-foreground border border-border bg-muted rounded-full px-2 truncate max-w-[80px]"
-              >
-                {label}
-              </span>
-            ))}
-          </div>
-        )}
+        {/* Left accent strip — avoids border-radius clipping from border-left */}
+        <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ backgroundColor: colColor }} />
 
-        {/* Title — double-click to edit inline */}
-        {isEditingTitle ? (
-          <div className="flex items-center gap-1">
-            <input
-              value={titleValue}
-              onChange={(e) => setTitleValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") saveTitleInline()
-                if (e.key === "Escape") {
+        <div className="pl-4 pr-3.5 py-3">
+          {/* Top: thin priority strip + label chips */}
+          {hasTopMeta && (
+            <div className="flex items-center gap-1.5 mb-2.5">
+              {priorityColor && (
+                <span
+                  className="inline-block h-[3px] w-5 rounded-full shrink-0 opacity-90"
+                  style={{ backgroundColor: priorityColor }}
+                  title={card.priority ?? undefined}
+                />
+              )}
+              {card.labels?.map((label) => (
+                <span
+                  key={label}
+                  className="inline-block text-xs leading-4 font-medium text-muted-foreground/80 border border-border/60 bg-muted/60 rounded-full px-1.5 truncate max-w-[80px]"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Title — double-click to edit inline */}
+          {isEditingTitle ? (
+            <div className="flex items-center gap-1">
+              <input
+                value={titleValue}
+                onChange={(e) => setTitleValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") saveTitleInline()
+                  if (e.key === "Escape") {
+                    setTitleValue(card.title)
+                    setIsEditingTitle(false)
+                  }
+                }}
+                onBlur={saveTitleInline}
+                // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
+                autoFocus
+                className="flex-1 bg-background border border-brand/40 rounded px-2 py-0.5 text-sm font-medium text-foreground leading-snug focus:outline-none focus:ring-1 focus:ring-ring"
+              />
+              <button
+                type="button"
+                onClick={saveTitleInline}
+                className="p-0.5 rounded hover:bg-muted shrink-0"
+              >
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
                   setTitleValue(card.title)
                   setIsEditingTitle(false)
-                }
-              }}
-              onBlur={saveTitleInline}
-              // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
-              autoFocus
-              className="flex-1 bg-background border border-brand/40 rounded px-2 py-0.5 text-sm font-semibold text-foreground leading-snug focus:outline-none focus:ring-1 focus:ring-ring"
-            />
-            <button
-              type="button"
-              onClick={saveTitleInline}
-              className="p-0.5 rounded hover:bg-muted shrink-0"
-            >
-              <Check className="h-3.5 w-3.5 text-emerald-500" />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setTitleValue(card.title)
-                setIsEditingTitle(false)
-              }}
-              className="p-0.5 rounded hover:bg-muted shrink-0"
-            >
-              <X className="h-3.5 w-3.5 text-muted-foreground" />
-            </button>
-          </div>
-        ) : (
-          <p
-            className="text-sm font-semibold text-foreground leading-snug line-clamp-3"
-            onDoubleClick={(e) => {
-              e.stopPropagation()
-              setTitleValue(card.title)
-              setIsEditingTitle(true)
-            }}
-            title="Двойной клик — изменить название"
-          >
-            {card.title}
-          </p>
-        )}
-
-        {/* Bottom: due date (double-click to edit) + assignee */}
-        {hasBottomMeta && (
-          <div className="flex items-center justify-between mt-2.5">
-            <div className="flex items-center gap-2">
-              {isEditingDueDate ? (
-                <div>
-                  <input
-                    type="date"
-                    defaultValue={card.due_date ?? ""}
-                    // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
-                    autoFocus
-                    className="bg-background border border-brand/40 rounded px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-                    onBlur={(e) => saveDueDateInline(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") saveDueDateInline((e.target as HTMLInputElement).value)
-                      if (e.key === "Escape") setIsEditingDueDate(false)
-                    }}
-                  />
-                </div>
-              ) : card.due_date ? (
-                <div
-                  onDoubleClick={(e) => {
-                    e.stopPropagation()
-                    setIsEditingDueDate(true)
-                  }}
-                  title="Двойной клик — изменить дедлайн"
-                >
-                  <DueDateBadge dueDate={card.due_date} />
-                </div>
-              ) : onUpdateCard ? (
-                <button
-                  type="button"
-                  className="text-[10px] text-muted-foreground/50 opacity-0 group-hover:opacity-100 hover:text-muted-foreground transition-all"
-                  onDoubleClick={(e) => {
-                    e.stopPropagation()
-                    setIsEditingDueDate(true)
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  + дедлайн
-                </button>
-              ) : null}
+                }}
+                className="p-0.5 rounded hover:bg-muted shrink-0"
+              >
+                <X className="h-3.5 w-3.5 text-muted-foreground" />
+              </button>
             </div>
-            {assigneeProfile && <MiniAvatar profile={assigneeProfile} />}
-          </div>
-        )}
+          ) : (
+            <p
+              className="text-sm font-medium text-foreground leading-snug line-clamp-3"
+              onDoubleClick={(e) => {
+                e.stopPropagation()
+                setTitleValue(card.title)
+                setIsEditingTitle(true)
+              }}
+              title="Двойной клик — изменить название"
+            >
+              {card.title}
+            </p>
+          )}
+
+          {/* Bottom: due date (double-click to edit) + assignee */}
+          {hasBottomMeta && (
+            <div className="flex items-center justify-between mt-2.5">
+              <div className="flex items-center gap-2">
+                {isEditingDueDate ? (
+                  <div>
+                    <input
+                      type="date"
+                      defaultValue={card.due_date ?? ""}
+                      // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
+                      autoFocus
+                      className="bg-background border border-brand/40 rounded px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                      onBlur={(e) => saveDueDateInline(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveDueDateInline((e.target as HTMLInputElement).value)
+                        if (e.key === "Escape") setIsEditingDueDate(false)
+                      }}
+                    />
+                  </div>
+                ) : card.due_date ? (
+                  <div
+                    onDoubleClick={(e) => {
+                      e.stopPropagation()
+                      setIsEditingDueDate(true)
+                    }}
+                    title="Двойной клик — изменить дедлайн"
+                  >
+                    <DueDateBadge dueDate={card.due_date} />
+                  </div>
+                ) : onUpdateCard ? (
+                  <button
+                    type="button"
+                    className="text-xs text-muted-foreground/50 opacity-0 group-hover:opacity-100 hover:text-muted-foreground transition-all"
+                    onDoubleClick={(e) => {
+                      e.stopPropagation()
+                      setIsEditingDueDate(true)
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    + дедлайн
+                  </button>
+                ) : null}
+              </div>
+              {assigneeProfile && <MiniAvatar profile={assigneeProfile} />}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

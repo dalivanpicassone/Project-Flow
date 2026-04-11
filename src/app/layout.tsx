@@ -10,7 +10,7 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
-  title: "ProjectFlow",
+  title: "Agora",
   description: "Kanban board for personal and team project management",
 }
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className={manrope.variable} suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
           <Toaster />
         </ThemeProvider>
