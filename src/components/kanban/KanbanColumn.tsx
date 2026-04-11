@@ -79,7 +79,7 @@ export function KanbanColumn({
   return (
     <>
       <div
-        className="flex flex-col w-[288px] shrink-0 bg-card rounded-2xl border border-border shadow-card transition-[box-shadow,border-color] duration-200"
+        className="flex flex-col w-[288px] shrink-0 bg-card rounded-2xl border border-border shadow-card transition-[box-shadow,border-color] duration-200 overflow-hidden"
         style={
           isOver
             ? { borderColor: "#059669", boxShadow: "0 0 0 2px rgba(5,150,105,0.20), var(--shadow-card)" }
@@ -87,7 +87,7 @@ export function KanbanColumn({
         }
       >
         {/* Top color bar */}
-        <div className="h-[4px] w-full rounded-t-2xl" style={{ backgroundColor: colColor }} />
+        <div className="h-[4px] w-full" style={{ backgroundColor: colColor }} />
 
         {/* Column header */}
         <div className="px-3.5 py-3.5 border-b border-border flex items-center gap-2">
