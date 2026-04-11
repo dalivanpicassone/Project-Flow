@@ -132,7 +132,7 @@ export default function BoardSettingsPage() {
                   {inviteError && <p className="text-sm text-red-500">{inviteError}</p>}
                   {inviteSuccess && <p className="text-sm text-green-600">✓ Участник добавлен</p>}
                   <p className="text-xs text-muted-foreground">
-                    Пользователь должен быть зарегистрирован в ProjectFlow
+                    Пользователь должен быть зарегистрирован в Agora
                   </p>
                 </div>
               )}

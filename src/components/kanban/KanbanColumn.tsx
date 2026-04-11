@@ -79,14 +79,18 @@ export function KanbanColumn({
   return (
     <>
       <div
-        className="flex flex-col w-60 shrink-0 bg-card rounded-xl border border-border"
-        style={isOver ? { borderColor: "#6366f150", boxShadow: "0 0 0 1px #6366f120" } : undefined}
+        className="flex flex-col w-[288px] shrink-0 bg-card rounded-2xl border border-border shadow-card transition-[box-shadow,border-color] duration-200 overflow-hidden"
+        style={
+          isOver
+            ? { borderColor: "#059669", boxShadow: "0 0 0 2px rgba(5,150,105,0.20), var(--shadow-card)" }
+            : undefined
+        }
       >
         {/* Top color bar */}
-        <div className="h-[3px] w-full rounded-t-xl" style={{ backgroundColor: colColor }} />
+        <div className="h-[4px] w-full" style={{ backgroundColor: colColor }} />
 
         {/* Column header */}
-        <div className="px-3 py-2.5 border-b border-border flex items-center gap-2">
+        <div className="px-3.5 py-3.5 border-b border-border flex items-center gap-2">
           {isEditingTitle ? (
             <div className="flex items-center gap-1 flex-1">
               <Input
@@ -130,8 +134,8 @@ export function KanbanColumn({
 
           {/* Count badge */}
           <span
-            className="text-[10px] px-1.5 py-0.5 rounded-full"
-            style={{ backgroundColor: `${colColor}20`, color: colColor }}
+            className="text-[11px] px-2 py-0.5 rounded-full font-bold tabular-nums"
+            style={{ backgroundColor: `${colColor}18`, color: colColor }}
           >
             {cards.length}
           </span>
@@ -163,7 +167,7 @@ export function KanbanColumn({
         </div>
 
         {/* Cards drop zone */}
-        <div ref={setNodeRef} className="flex flex-col gap-2 p-2 flex-1 min-h-[4rem]">
+        <div ref={setNodeRef} className="flex flex-col gap-2.5 p-2.5 flex-1 min-h-[4rem]">
           <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
             {cards.map((card) => (
               <KanbanCard
@@ -179,7 +183,7 @@ export function KanbanColumn({
         </div>
 
         {/* Add card button */}
-        <div className="p-2 pt-0">
+        <div className="p-2.5 pt-0">
           <CreateCardDialog columnId={column.id} onCreate={onCreateCard} />
         </div>
       </div>

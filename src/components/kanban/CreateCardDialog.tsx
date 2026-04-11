@@ -58,7 +58,7 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start text-muted-foreground hover:text-foreground"
+            className="w-full justify-start text-muted-foreground/50 hover:text-emerald-600 border border-dashed border-border hover:border-emerald-300 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 dark:hover:border-emerald-800 dark:hover:text-emerald-400 rounded-xl transition-all duration-150"
           />
         }
       >

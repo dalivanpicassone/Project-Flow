@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   const targetUser = users.find((u) => u.email === email)
   if (!targetUser) {
     return NextResponse.json(
-      { error: "Пользователь с таким email не зарегистрирован в ProjectFlow" },
+      { error: "Пользователь с таким email не зарегистрирован в Agora" },
       { status: 404 }
     )
   }
