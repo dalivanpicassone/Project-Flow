@@ -54,7 +54,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
 
   return (
     <>
-      <div className="group relative flex flex-col rounded-xl bg-card border border-border hover:border-muted-foreground/30 transition-all duration-200 overflow-hidden hover:shadow-lg hover:-translate-y-px">
+      <div className="group relative flex flex-col rounded-xl bg-card border border-border hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-200 overflow-hidden shadow-card hover:shadow-[0_6px_20px_rgba(5,150,105,0.10)] hover:-translate-y-0.5">
         {/* Clickable link overlay */}
         <Link
           href={`/board/${board.id}`}
@@ -63,7 +63,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
         />
 
         {/* Top accent bar */}
-        <div className="h-[3px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
+        <div className="h-[4px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
 
         {/* Card body */}
         <div className="relative z-10 p-4 flex flex-col gap-3 pointer-events-none flex-1">
@@ -71,10 +71,10 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           <div className="flex items-start gap-3">
             {/* Board avatar */}
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-              style={{ backgroundColor: `${accentColor}22` }}
+              className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+              style={{ background: `linear-gradient(135deg, ${accentColor}dd, ${accentColor}99)` }}
             >
-              <span className="text-xs font-bold leading-none" style={{ color: accentColor }}>
+              <span className="text-xs font-bold leading-none text-white">
                 {initial}
               </span>
             </div>
@@ -128,9 +128,9 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center gap-1.5 pt-2.5 border-t border-border mt-auto">
-            <Clock className="h-3 w-3 text-muted-foreground/60 shrink-0" />
-            <span className="text-xs text-muted-foreground/60 tabular-nums">
+          <div className="flex items-center gap-1.5 pt-2.5 border-t border-border/60 mt-auto">
+            <Clock className="h-3 w-3 text-muted-foreground/50 shrink-0" />
+            <span className="text-[11px] text-muted-foreground/50 tabular-nums">
               {formatDistanceToNow(new Date(board.created_at), { addSuffix: true, locale: ru })}
             </span>
           </div>
@@ -140,7 +140,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
           style={{
-            background: `radial-gradient(ellipse at top right, ${accentColor}10, transparent 65%)`,
+            background: `radial-gradient(ellipse at top right, ${accentColor}0d, transparent 60%)`,
           }}
         />
       </div>

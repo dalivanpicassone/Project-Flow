@@ -31,43 +31,50 @@ export function Sidebar() {
   const isDashboardActive = pathname.startsWith("/dashboard")
 
   return (
-    <div className="w-[200px] flex-shrink-0 bg-sidebar border-r border-sidebar-border flex flex-col min-h-screen">
+    <div className="w-[220px] flex-shrink-0 bg-sidebar border-r border-sidebar-border flex flex-col min-h-screen">
 
       {/* Logo + App name */}
-      <div className="px-4 py-4 border-b border-sidebar-border">
-        <Link href="/dashboard" className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#6366f1] rounded-lg flex items-center justify-center flex-shrink-0">
-            <span className="font-bold text-white text-sm">P</span>
+      <div className="px-4 pt-5 pb-4 border-b border-sidebar-border">
+        <Link href="/dashboard" className="flex items-center gap-3 group">
+          <div
+            className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 transition-shadow duration-200 bg-gradient-to-br from-emerald-500 to-emerald-400"
+            style={{ boxShadow: "var(--shadow-brand)" }}
+          >
+            <span className="font-bold text-white text-sm tracking-tight">A</span>
           </div>
           <div>
-            <div className="text-sm font-bold text-sidebar-foreground leading-tight">ProjectFlow</div>
-            <div className="text-[10px] text-muted-foreground leading-tight">Workspace</div>
+            <div className="text-sm font-bold text-sidebar-foreground leading-tight tracking-[-0.01em]">Agora</div>
+            <div className="text-[10px] text-muted-foreground/60 leading-tight">Workspace</div>
           </div>
         </Link>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-3">
-        <p className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-widest px-2 mb-2">
+      <nav className="flex-1 px-3 py-4 space-y-0.5">
+        <p className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-[0.12em] px-2 mb-3">
           Навигация
         </p>
 
         <Link
           href="/dashboard"
-          className="group relative flex items-center gap-3 px-2.5 py-2 rounded-lg transition-colors duration-150 hover:bg-sidebar-accent"
-          style={isDashboardActive ? { background: "#6366f115" } : undefined}
+          className="group relative flex items-center gap-2.5 px-3 py-2.5 rounded-lg transition-all duration-150 hover:bg-sidebar-accent"
+          style={isDashboardActive ? { background: "rgba(5,150,105,0.08)" } : undefined}
         >
           {isDashboardActive && (
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#6366f1] rounded-r" />
+            <div className="absolute left-0 inset-y-[6px] w-[3px] bg-emerald-500 rounded-r-full" />
           )}
           <LayoutGrid
-            className={`h-[18px] w-[18px] flex-shrink-0 ${
-              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/40 group-hover:text-sidebar-foreground/70"
+            className={`h-4 w-4 flex-shrink-0 transition-colors duration-150 ${
+              isDashboardActive
+                ? "text-emerald-600 dark:text-emerald-400"
+                : "text-sidebar-foreground/35 group-hover:text-sidebar-foreground/65"
             }`}
           />
           <span
-            className={`text-sm font-medium ${
-              isDashboardActive ? "text-[#818cf8]" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground"
+            className={`text-sm transition-colors duration-150 ${
+              isDashboardActive
+                ? "font-semibold text-emerald-700 dark:text-emerald-400"
+                : "font-medium text-sidebar-foreground/50 group-hover:text-sidebar-foreground"
             }`}
           >
             Мои доски
@@ -76,19 +83,21 @@ export function Sidebar() {
       </nav>
 
       {/* User section */}
-      <div className="px-3 py-3 border-t border-sidebar-border">
-        <div className="flex items-center gap-2">
+      <div className="px-3 py-4 border-t border-sidebar-border">
+        <div className="flex items-center gap-1.5">
           {!isLoading && user && (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-2 flex-1 min-w-0 cursor-pointer group">
-                <div className="w-7 h-7 rounded-full bg-sidebar-accent border border-sidebar-border flex items-center justify-center flex-shrink-0 group-hover:border-sidebar-ring transition-colors duration-150">
-                  <span className="text-[#818cf8] text-xs font-semibold">{initial}</span>
+              <DropdownMenuTrigger className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer group rounded-lg px-2 py-2 hover:bg-sidebar-accent transition-colors duration-150">
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-150 bg-gradient-to-br from-emerald-500 to-emerald-400"
+                >
+                  <span className="text-white text-xs font-bold leading-none">{initial}</span>
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <div className="text-xs font-semibold text-sidebar-foreground truncate leading-tight">
                     {displayName}
                   </div>
-                  <div className="text-[10px] text-muted-foreground truncate leading-tight">
+                  <div className="text-[10px] text-muted-foreground/60 truncate leading-tight">
                     {email}
                   </div>
                 </div>
