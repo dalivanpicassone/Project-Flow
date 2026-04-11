@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=220&section=header&text=ProjectFlow&fontSize=90&fontAlignY=38&animation=fadeIn&fontColor=ffffff&desc=Kanban-доска%20с%20открытым%20исходным%20кодом&descAlignY=60&descSize=22" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=220&section=header&text=Agora&fontSize=90&fontAlignY=38&animation=fadeIn&fontColor=ffffff&desc=Kanban-доска%20с%20открытым%20исходным%20кодом&descAlignY=60&descSize=22" width="100%"/>
 
 <a href="https://git.io/typing-svg">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=6366F1&center=true&vCenter=true&random=false&width=600&lines=Real-time+Kanban-доски;Drag+%26+drop+управление+задачами;Чеклисты+и+комментарии+к+карточкам;Командная+работа+в+реальном+времени;Next.js+%2B+Supabase" alt="Typing SVG" />
@@ -18,7 +18,7 @@
 
 <br/>
 
-**ProjectFlow** — open-source приложение для управления задачами в стиле Kanban с поддержкой real-time синхронизации, drag-and-drop, чеклистами, комментариями и ролевым доступом.
+**Agora** — open-source приложение для управления задачами в стиле Kanban с поддержкой real-time синхронизации, drag-and-drop, чеклистами, комментариями и ролевым доступом.
 
 <br/>
 
@@ -100,8 +100,8 @@
 
 **1. Форкни и клонируй репозиторий**
 ```bash
-git clone https://github.com/<твой-username>/Project-Flow.git
-cd Project-Flow
+git clone https://github.com/<твой-username>/agora.git
+cd agora
 npm install
 ```
 

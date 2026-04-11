@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=220&section=header&text=ProjectFlow&fontSize=90&fontAlignY=38&animation=fadeIn&fontColor=ffffff&desc=Open-Source%20Kanban%20Board%20for%20Modern%20Teams&descAlignY=60&descSize=22" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=220&section=header&text=Agora&fontSize=90&fontAlignY=38&animation=fadeIn&fontColor=ffffff&desc=Open-Source%20Kanban%20Board%20for%20Modern%20Teams&descAlignY=60&descSize=22" width="100%"/>
 
 <a href="https://git.io/typing-svg">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=6366F1&center=true&vCenter=true&random=false&width=600&lines=Real-time+Kanban+boards;Drag+%26+drop+task+management;Checklists+%26+comments+on+cards;Team+collaboration+made+easy;Built+with+Next.js+%26+Supabase" alt="Typing SVG" />
@@ -18,7 +18,7 @@
 
 <br/>
 
-**ProjectFlow** is an open-source Kanban board application for task management and team collaboration — with real-time sync, drag-and-drop, checklists, comments, and role-based access.
+**Agora** is an open-source Kanban board application for task management and team collaboration — with real-time sync, drag-and-drop, checklists, comments, and role-based access.
 
 <br/>
 
@@ -100,8 +100,8 @@
 
 **1. Fork & clone the repository**
 ```bash
-git clone https://github.com/<your-username>/Project-Flow.git
-cd Project-Flow
+git clone https://github.com/<your-username>/agora.git
+cd agora
 npm install
 ```
 
