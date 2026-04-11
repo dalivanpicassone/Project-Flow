@@ -56,10 +56,9 @@ export function DashboardStats() {
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
-        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
-        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
-        <div className="rounded-xl border border-border bg-card h-[88px] animate-pulse" />
+        {[1,2,3,4].map((i) => (
+          <div key={i} className="rounded-xl border border-border bg-card h-[92px] animate-pulse" />
+        ))}
       </div>
     )
   }
@@ -69,17 +68,17 @@ export function DashboardStats() {
       {stats.map(({ label, value, Icon, iconBg, iconColor, hint }) => (
         <div
           key={label}
-          className="rounded-xl border border-border bg-card p-4 flex flex-col gap-3 transition-colors hover:border-muted-foreground/20"
+          className="rounded-xl border border-border bg-card p-4 flex flex-col gap-3 shadow-card hover:border-muted-foreground/20 hover:shadow-card-hover transition-[box-shadow,border-color] duration-200"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">{label}</span>
+            <span className="text-[11px] font-semibold text-muted-foreground/80 uppercase tracking-[0.04em]">{label}</span>
             <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${iconBg}`}>
               <Icon className={`h-3.5 w-3.5 ${iconColor}`} />
             </div>
           </div>
           <div>
-            <p className="text-2xl font-bold text-foreground tabular-nums">{value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{hint}</p>
+            <p className="text-[26px] font-bold text-foreground tabular-nums leading-none">{value}</p>
+            <p className="text-[11px] text-muted-foreground/60 mt-1.5">{hint}</p>
           </div>
         </div>
       ))}
