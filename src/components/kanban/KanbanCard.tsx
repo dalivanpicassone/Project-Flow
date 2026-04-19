@@ -108,8 +108,8 @@ export function KanbanCard({
     return (
       <div ref={setNodeRef} style={style}>
         <div
-          className="w-full rounded-xl border border-dashed border-brand/30 bg-brand/[0.04] animate-pulse"
-          style={{ minHeight: "64px" }}
+          className="w-full rounded-lg border border-dashed border-border bg-muted/50"
+          style={{ minHeight: "60px" }}
         />
       </div>
     )
@@ -120,22 +120,19 @@ export function KanbanCard({
       <div
         {...attributes}
         {...dragListeners}
-        className="group relative w-full cursor-pointer rounded-xl bg-card border border-border hover:border-emerald-200 dark:hover:border-emerald-800 hover:-translate-y-0.5 transition-[transform,box-shadow,border-color] duration-200 shadow-card hover:shadow-[0_4px_12px_rgba(5,150,105,0.10)] overflow-hidden"
+        className="group relative w-full cursor-pointer rounded-lg bg-card border border-border hover:border-foreground/20 transition-[box-shadow,border-color] duration-200 hover:shadow-card-hover"
         onClick={() => {
           if (isEditingTitle || isEditingDueDate) return
           onClick(card)
         }}
       >
-        {/* Left accent strip — avoids border-radius clipping from border-left */}
-        <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ backgroundColor: colColor }} />
-
-        <div className="pl-4 pr-3.5 py-3">
+        <div className="px-3.5 py-3">
           {/* Top: thin priority strip + label chips */}
           {hasTopMeta && (
-            <div className="flex items-center gap-1.5 mb-2.5">
+            <div className="flex items-center gap-1.5 mb-2">
               {priorityColor && (
                 <span
-                  className="inline-block h-[3px] w-5 rounded-full shrink-0 opacity-90"
+                  className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
                   style={{ backgroundColor: priorityColor }}
                   title={card.priority ?? undefined}
                 />
@@ -143,7 +140,7 @@ export function KanbanCard({
               {card.labels?.map((label) => (
                 <span
                   key={label}
-                  className="inline-block text-xs leading-4 font-medium text-muted-foreground/80 border border-border/60 bg-muted/60 rounded-full px-1.5 truncate max-w-[80px]"
+                  className="inline-block text-[10px] leading-4 font-medium text-muted-foreground border border-border bg-muted rounded-full px-1.5 uppercase tracking-wide truncate max-w-[80px]"
                 >
                   {label}
                 </span>
@@ -167,14 +164,14 @@ export function KanbanCard({
                 onBlur={saveTitleInline}
                 // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
                 autoFocus
-                className="flex-1 bg-background border border-brand/40 rounded px-2 py-0.5 text-sm font-medium text-foreground leading-snug focus:outline-none focus:ring-1 focus:ring-ring"
+                className="flex-1 bg-background border border-border rounded-md px-2 py-0.5 text-sm font-medium text-foreground leading-snug focus:outline-none focus:ring-1 focus:ring-ring"
               />
               <button
                 type="button"
                 onClick={saveTitleInline}
                 className="p-0.5 rounded hover:bg-muted shrink-0"
               >
-                <Check className="h-3.5 w-3.5 text-emerald-500" />
+                <Check className="h-3.5 w-3.5 text-foreground" />
               </button>
               <button
                 type="button"
@@ -212,7 +209,7 @@ export function KanbanCard({
                       defaultValue={card.due_date ?? ""}
                       // biome-ignore lint/a11y/noAutofocus: required for inline editing UX
                       autoFocus
-                      className="bg-background border border-brand/40 rounded px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                      className="bg-background border border-border rounded-md px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
                       onBlur={(e) => saveDueDateInline(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") saveDueDateInline((e.target as HTMLInputElement).value)

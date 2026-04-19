@@ -61,14 +61,14 @@ const priorityChipStyles: Record<Priority, string> = {
   high: "bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-950/30 dark:border-amber-900 dark:text-amber-400",
   medium:
     "bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/30 dark:border-blue-900 dark:text-blue-400",
-  low: "bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/30 dark:border-emerald-900 dark:text-emerald-400",
+  low: "bg-[#EDF3EC] border-[#c6d8c5] text-[#346538] dark:bg-green-950/30 dark:border-green-900 dark:text-green-400",
 }
 
 const priorityDotColors: Record<Priority, string> = {
   critical: "#dc2626",
   high: "#b45309",
   medium: "#1d4ed8",
-  low: "#059669",
+  low: "#346538",
 }
 
 export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDetailDialogProps) {
@@ -196,14 +196,14 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                     className={[
                       "flex items-center gap-1.5 text-[11px] font-semibold transition-colors duration-150 px-1 whitespace-nowrap",
                       isCurrent
-                        ? "text-emerald-600 dark:text-emerald-400 cursor-default"
+                        ? "text-foreground font-semibold cursor-default"
                         : "text-muted-foreground/50 hover:text-muted-foreground cursor-pointer",
                     ].join(" ")}
                   >
                     <span
                       className="size-1.5 rounded-full shrink-0 transition-colors duration-150"
                       style={{
-                        background: isCurrent ? "#059669" : isPast ? "#a7f3d0" : undefined,
+                        background: isCurrent ? "var(--foreground)" : isPast ? "var(--border)" : undefined,
                         opacity: isPast || isCurrent ? 1 : 0.35,
                         backgroundColor: !isCurrent && !isPast ? "currentColor" : undefined,
                       }}
@@ -230,7 +230,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 <button
                   type="button"
                   onClick={() => handleColumnChange(nextColumn.id)}
-                  className="h-6 px-2.5 text-[11px] font-semibold rounded-md bg-emerald-600 text-white hover:bg-emerald-700 transition-colors duration-150 whitespace-nowrap"
+                  className="h-6 px-2.5 text-[11px] font-semibold rounded-md bg-foreground text-background hover:bg-foreground/90 transition-colors duration-150 whitespace-nowrap"
                 >
                   {nextColumn.title} →
                 </button>
@@ -267,7 +267,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 <form onSubmit={handleSubmit(handleTitleSave)} className="mb-3">
                   <input
                     {...register("title")}
-                    className="w-full text-[19px] font-extrabold text-foreground leading-snug tracking-tight bg-transparent border-0 border-b-2 border-emerald-400 outline-none pb-0.5 placeholder:text-muted-foreground/40"
+                    className="w-full text-[19px] font-extrabold text-foreground leading-snug tracking-tight bg-transparent border-0 border-b-2 border-foreground/30 outline-none pb-0.5 placeholder:text-muted-foreground/40"
                     autoFocus
                     onBlur={handleSubmit(handleTitleSave)}
                   />
@@ -312,7 +312,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   <SelectTrigger className="h-auto py-1 px-2.5 border rounded-lg text-[11.5px] font-semibold gap-1.5 bg-muted/40 border-border hover:border-muted-foreground/40 transition-colors w-auto min-w-0">
                     <SelectValue>
                       <span className="flex items-center gap-1.5">
-                        <span className="inline-flex size-4 rounded-[4px] bg-gradient-to-br from-emerald-500 to-emerald-400 items-center justify-center text-[8px] font-bold text-white shrink-0">
+                        <span className="inline-flex size-4 rounded-[4px] bg-foreground items-center justify-center text-[8px] font-bold text-background shrink-0">
                           {card.assignee_id
                             ? (
                                 members.find((m) => m.user_id === card.assignee_id)?.profile
@@ -345,7 +345,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 {(card.labels ?? []).map((label) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded-lg border border-indigo-200 bg-indigo-50 text-indigo-700 text-[11px] font-semibold dark:bg-indigo-950/30 dark:border-indigo-900 dark:text-indigo-400"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-border bg-muted text-muted-foreground text-[11px] font-medium uppercase tracking-wide"
                   >
                     {label}
                     <button
@@ -366,7 +366,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                       onChange={(e) => setLabelInput(e.target.value)}
                       placeholder="Метка..."
                       autoFocus
-                      className="h-7 w-24 text-[11.5px] px-2 rounded-lg border border-border bg-muted/40 outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/30"
+                      className="h-7 w-24 text-[11.5px] px-2 rounded-md border border-border bg-muted/40 outline-none focus:border-foreground/30 focus:ring-1 focus:ring-foreground/10"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           e.preventDefault()
@@ -378,7 +378,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                     <button
                       type="button"
                       onClick={handleAddLabel}
-                      className="text-emerald-600 text-[11px] font-semibold hover:text-emerald-700"
+                      className="text-foreground text-[11px] font-semibold hover:opacity-70"
                     >
                       OK
                     </button>
@@ -390,7 +390,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   <button
                     type="button"
                     onClick={() => setLabelInput("")}
-                    className="inline-flex items-center gap-1 px-2 py-1 rounded-lg border border-dashed border-border text-[11px] font-semibold text-muted-foreground hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50 transition-colors dark:hover:bg-emerald-950/20 dark:hover:border-emerald-800 dark:hover:text-emerald-400"
+                    className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-dashed border-border text-[11px] font-medium text-muted-foreground hover:border-foreground/20 hover:text-foreground hover:bg-muted transition-colors"
                   >
                     <Plus className="h-3 w-3" />
                     метка
@@ -427,14 +427,14 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                     rows={4}
                     placeholder="Добавьте описание задачи..."
                     autoFocus
-                    className="text-[13px] leading-relaxed bg-muted/40 border-border focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 rounded-xl resize-none"
+                    className="text-[13px] leading-relaxed bg-muted/40 border-border focus:border-foreground/30 focus:ring-1 focus:ring-foreground/10 rounded-lg resize-none"
                   />
                   <div className="flex gap-2">
                     <Button
                       type="submit"
                       size="sm"
                       disabled={isSubmitting}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white h-7 text-xs"
+                      className="bg-foreground text-background hover:bg-foreground/90 h-7 text-xs"
                     >
                       Сохранить
                     </Button>
@@ -452,7 +452,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
               ) : (
                 <button
                   type="button"
-                  className="w-full min-h-16 p-3 mb-5 rounded-xl bg-muted/40 border border-border text-[13px] text-left leading-relaxed whitespace-pre-wrap cursor-text hover:border-emerald-300 hover:ring-2 hover:ring-emerald-500/10 transition-all duration-150"
+                  className="w-full min-h-16 p-3 mb-5 rounded-lg bg-muted/40 border border-border text-[13px] text-left leading-relaxed whitespace-pre-wrap cursor-text hover:border-foreground/20 transition-all duration-150"
                   onClick={() => setIsEditingDescription(true)}
                 >
                   {card.description ? (
@@ -473,7 +473,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   className={[
                     "flex items-center gap-1.5 pb-2.5 mr-5 text-[12px] font-semibold border-b-2 transition-colors duration-150",
                     activeTab === "checklist"
-                      ? "border-emerald-500 text-foreground"
+                      ? "border-foreground text-foreground"
                       : "border-transparent text-muted-foreground hover:text-foreground",
                   ].join(" ")}
                 >
@@ -485,7 +485,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   className={[
                     "flex items-center gap-1.5 pb-2.5 text-[12px] font-semibold border-b-2 transition-colors duration-150",
                     activeTab === "activity"
-                      ? "border-emerald-500 text-foreground"
+                      ? "border-foreground text-foreground"
                       : "border-transparent text-muted-foreground hover:text-foreground",
                   ].join(" ")}
                 >
@@ -572,7 +572,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                           isOverdue
                             ? "bg-red-50 border-red-200 text-red-700 dark:bg-red-950/30 dark:border-red-900 dark:text-red-400"
                             : card.due_date
-                              ? "bg-emerald-50 border-emerald-200 text-emerald-700 dark:bg-emerald-950/30 dark:border-emerald-900 dark:text-emerald-400"
+                              ? "bg-[#EDF3EC] border-[#c6d8c5] text-[#346538] dark:bg-green-950/30 dark:border-green-900 dark:text-green-400"
                               : "bg-background border-border text-muted-foreground hover:border-muted-foreground/40",
                         ].join(" ")}
                       >
@@ -625,7 +625,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                         ? "text-red-600 dark:text-red-400"
                         : cycleDays > 3
                           ? "text-amber-500 dark:text-amber-400"
-                          : "text-emerald-600 dark:text-emerald-400",
+                          : "text-foreground",
                     ].join(" ")}
                   >
                     {cycleDays}

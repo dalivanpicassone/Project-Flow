@@ -65,9 +65,9 @@ export default function BoardPage() {
             size="sm"
             onClick={() => setMyTasksOnly((v) => !v)}
             className={cn(
-              "text-xs h-[30px] px-3 rounded-lg border",
+              "text-xs h-[30px] px-3 rounded-md border",
               myTasksOnly
-                ? "bg-indigo-600 border-indigo-600 text-white hover:bg-indigo-700"
+                ? "bg-foreground border-foreground text-background hover:bg-foreground/90"
                 : "bg-muted border-border text-muted-foreground hover:text-foreground"
             )}
           >
@@ -77,7 +77,7 @@ export default function BoardPage() {
           <Button
             variant="ghost"
             size="sm"
-            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-lg hover:text-foreground"
+            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-md hover:text-foreground"
           >
             <UserPlus className="mr-1.5 h-3.5 w-3.5" />
             Пригласить
@@ -86,7 +86,7 @@ export default function BoardPage() {
             variant="ghost"
             size="sm"
             onClick={() => router.push(`/board/${id}/settings`)}
-            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-lg hover:text-foreground"
+            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-md hover:text-foreground"
           >
             <Settings className="mr-1.5 h-3.5 w-3.5" />
             Настройки

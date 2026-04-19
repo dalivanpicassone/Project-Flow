@@ -50,7 +50,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
     <div className="space-y-3">
       {/* Section heading */}
       <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-        <MessageCircle className="h-4 w-4 text-emerald-500" />
+        <MessageCircle className="h-4 w-4 text-muted-foreground" />
         Комментарии
         {comments.length > 0 && (
           <span className="text-muted-foreground text-xs">({comments.length})</span>
@@ -72,7 +72,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
             return (
               <div key={comment.id} className="flex gap-2.5">
                 {/* Avatar */}
-                <div className="h-7 w-7 rounded-full bg-muted border border-border flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xs font-bold shrink-0 select-none">
+                <div className="h-7 w-7 rounded-md bg-foreground flex items-center justify-center text-background text-xs font-bold shrink-0 select-none">
                   {displayName.slice(0, 1).toUpperCase()}
                 </div>
 
@@ -111,7 +111,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
                       <div className="flex gap-1.5">
                         <Button
                           size="sm"
-                          className="h-6 px-2 text-xs bg-emerald-600 hover:bg-emerald-700 text-white"
+                          className="h-6 px-2 text-xs bg-foreground text-background hover:bg-foreground/90"
                           onClick={() => handleConfirmEdit(comment.id)}
                         >
                           <Check className="h-3 w-3 mr-1" />
@@ -136,7 +136,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
                         <div className="flex gap-2 mt-1 opacity-0 group-hover/c:opacity-100 transition-opacity">
                           <button
                             type="button"
-                            className="text-[10px] text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 flex items-center gap-0.5 transition-colors"
+                            className="text-[10px] text-muted-foreground hover:text-foreground flex items-center gap-0.5 transition-colors"
                             onClick={() => handleStartEdit(comment.id, comment.body)}
                           >
                             <Pencil className="h-2.5 w-2.5" />
@@ -181,7 +181,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
           size="sm"
           disabled={!newBody.trim() || isSending}
           onClick={handleSend}
-          className="self-end bg-emerald-600 hover:bg-emerald-700 text-white h-8 w-8 p-0"
+          className="self-end bg-foreground text-background hover:bg-foreground/90 h-8 w-8 p-0"
         >
           <Send className="h-3.5 w-3.5" />
         </Button>

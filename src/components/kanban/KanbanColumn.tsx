@@ -79,18 +79,15 @@ export function KanbanColumn({
   return (
     <>
       <div
-        className="flex flex-col w-[288px] shrink-0 bg-card rounded-2xl border border-border shadow-card transition-[box-shadow,border-color] duration-200 overflow-hidden"
+        className="flex flex-col w-[272px] shrink-0 bg-muted/40 rounded-lg border border-border transition-[border-color] duration-200 overflow-hidden"
         style={
           isOver
-            ? { borderColor: "#059669", boxShadow: "0 0 0 2px rgba(5,150,105,0.20), var(--shadow-card)" }
+            ? { borderColor: "rgba(0,0,0,0.25)" }
             : undefined
         }
       >
-        {/* Top color bar */}
-        <div className="h-[4px] w-full" style={{ backgroundColor: colColor }} />
-
         {/* Column header */}
-        <div className="px-3.5 py-3.5 border-b border-border flex items-center gap-2">
+        <div className="px-3.5 py-3 border-b border-border flex items-center gap-2">
           {isEditingTitle ? (
             <div className="flex items-center gap-1 flex-1">
               <Input
@@ -103,11 +100,11 @@ export function KanbanColumn({
                     setIsEditingTitle(false)
                   }
                 }}
-                className="h-7 text-xs font-semibold bg-muted border-border"
+                className="h-7 text-xs font-medium bg-background border-border"
                 autoFocus
               />
               <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleTitleSave}>
-                <Check className="h-3.5 w-3.5 text-emerald-500" />
+                <Check className="h-3.5 w-3.5 text-foreground" />
               </Button>
               <Button
                 size="icon"
@@ -133,10 +130,7 @@ export function KanbanColumn({
           )}
 
           {/* Count badge */}
-          <span
-            className="text-[11px] px-2 py-0.5 rounded-full font-bold tabular-nums"
-            style={{ backgroundColor: `${colColor}18`, color: colColor }}
-          >
+          <span className="text-[11px] px-1.5 py-0.5 rounded font-medium tabular-nums text-muted-foreground bg-border/60">
             {cards.length}
           </span>
 
@@ -167,7 +161,7 @@ export function KanbanColumn({
         </div>
 
         {/* Cards drop zone */}
-        <div ref={setNodeRef} className="flex flex-col gap-2.5 p-2.5 flex-1 min-h-[4rem]">
+        <div ref={setNodeRef} className="flex flex-col gap-2 p-2 flex-1 min-h-[4rem]">
           <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
             {cards.map((card) => (
               <KanbanCard
@@ -183,7 +177,7 @@ export function KanbanColumn({
         </div>
 
         {/* Add card button */}
-        <div className="p-2.5 pt-0">
+        <div className="p-2 pt-0">
           <CreateCardDialog columnId={column.id} onCreate={onCreateCard} />
         </div>
       </div>

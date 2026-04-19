@@ -54,7 +54,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
 
   return (
     <>
-      <div className="group relative flex flex-col rounded-xl bg-card border border-border hover:border-emerald-200 dark:hover:border-emerald-800 transition-all duration-200 overflow-hidden shadow-card hover:shadow-[0_6px_20px_rgba(5,150,105,0.10)] hover:-translate-y-0.5">
+      <div className="group relative flex flex-col rounded-lg bg-card border border-border hover:border-foreground/20 transition-[border-color,box-shadow] duration-200 overflow-hidden hover:shadow-card-hover">
         {/* Clickable link overlay */}
         <Link
           href={`/board/${board.id}`}
@@ -71,21 +71,21 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           <div className="flex items-start gap-3">
             {/* Board avatar */}
             <div
-              className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
-              style={{ background: `linear-gradient(135deg, ${accentColor}dd, ${accentColor}99)` }}
+              className="w-7 h-7 rounded-md flex items-center justify-center shrink-0"
+              style={{ background: `${accentColor}22`, border: `1px solid ${accentColor}44` }}
             >
-              <span className="text-xs font-bold leading-none text-white">
+              <span className="text-xs font-bold leading-none" style={{ color: accentColor }}>
                 {initial}
               </span>
             </div>
 
             {/* Title + description */}
             <div className="flex-1 min-w-0 pt-0.5">
-              <h3 className="text-sm font-semibold text-foreground leading-tight line-clamp-2">
+              <h3 className="text-sm font-medium text-foreground leading-tight line-clamp-2">
                 {board.title}
               </h3>
               {board.description && (
-                <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
                   {board.description}
                 </p>
               )}
@@ -136,13 +136,6 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </div>
         </div>
 
-        {/* Hover gradient overlay */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse at top right, ${accentColor}0d, transparent 60%)`,
-          }}
-        />
       </div>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>

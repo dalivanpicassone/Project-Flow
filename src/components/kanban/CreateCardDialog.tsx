@@ -58,7 +58,7 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start text-muted-foreground/50 hover:text-emerald-600 border border-dashed border-border hover:border-emerald-300 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 dark:hover:border-emerald-800 dark:hover:text-emerald-400 rounded-xl transition-all duration-150"
+            className="w-full justify-start text-muted-foreground hover:text-foreground border border-dashed border-border hover:border-foreground/20 hover:bg-muted/60 rounded-lg transition-all duration-150"
           />
         }
       >
@@ -82,19 +82,19 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
                 <SelectValue
                   placeholder={
                     {
-                      critical: "🔴 Критично",
-                      high: "🟠 Высокий",
-                      medium: "🟡 Средний",
-                      low: "🟢 Низкий",
-                    }[priority] ?? "🟡 Средний"
+                      critical: "Критично",
+                      high: "Высокий",
+                      medium: "Средний",
+                      low: "Низкий",
+                    }[priority] ?? "Средний"
                   }
                 />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="critical">🔴 Критично</SelectItem>
-                <SelectItem value="high">🟠 Высокий</SelectItem>
-                <SelectItem value="medium">🟡 Средний</SelectItem>
-                <SelectItem value="low">🟢 Низкий</SelectItem>
+                <SelectItem value="critical">Критично</SelectItem>
+                <SelectItem value="high">Высокий</SelectItem>
+                <SelectItem value="medium">Средний</SelectItem>
+                <SelectItem value="low">Низкий</SelectItem>
               </SelectContent>
             </Select>
           </div>
