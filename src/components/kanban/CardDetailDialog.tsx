@@ -182,7 +182,10 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
           showCloseButton={false}
         >
           {/* ── Pipeline bar ── */}
-          <div className="flex items-center h-10 px-5 bg-muted/40 border-b border-border shrink-0 gap-0 overflow-x-auto">
+          <div
+            className="flex items-center h-10 px-5 shrink-0 gap-0 overflow-x-auto border-b"
+            style={{ background: "#f6f5f4", borderColor: "rgba(0,0,0,0.08)" }}
+          >
             {columns.map((col, idx) => {
               const isPast = idx < currentColumnIndex
               const isCurrent = idx === currentColumnIndex
@@ -191,25 +194,35 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   <button
                     type="button"
                     onClick={() => !isCurrent && handleColumnChange(col.id)}
-                    className={[
-                      "flex items-center gap-1.5 text-[11px] font-semibold transition-colors duration-150 px-1 whitespace-nowrap",
-                      isCurrent
-                        ? "text-foreground font-semibold cursor-default"
-                        : "text-muted-foreground/50 hover:text-muted-foreground cursor-pointer",
-                    ].join(" ")}
+                    className="flex items-center gap-1.5 text-[11px] font-semibold transition-colors duration-150 px-1 whitespace-nowrap"
+                    style={{
+                      color: isCurrent
+                        ? "rgba(0,0,0,0.9)"
+                        : isPast
+                          ? "#a39e98"
+                          : "rgba(0,0,0,0.3)",
+                      cursor: isCurrent ? "default" : "pointer",
+                    }}
                   >
                     <span
                       className="size-1.5 rounded-full shrink-0 transition-colors duration-150"
                       style={{
-                        background: isCurrent ? "var(--foreground)" : isPast ? "var(--border)" : undefined,
-                        opacity: isPast || isCurrent ? 1 : 0.35,
-                        backgroundColor: !isCurrent && !isPast ? "currentColor" : undefined,
+                        backgroundColor: isCurrent
+                          ? "rgba(0,0,0,0.9)"
+                          : isPast
+                            ? "#a39e98"
+                            : "rgba(0,0,0,0.18)",
                       }}
                     />
                     {col.title}
                   </button>
                   {idx < columns.length - 1 && (
-                    <span className="text-border mx-1 text-[10px] select-none">›</span>
+                    <span
+                      className="mx-1 text-[10px] select-none"
+                      style={{ color: "rgba(0,0,0,0.18)" }}
+                    >
+                      ›
+                    </span>
                   )}
                 </div>
               )
@@ -219,7 +232,14 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 <button
                   type="button"
                   onClick={() => handleColumnChange(prevColumn.id)}
-                  className="h-6 px-2.5 text-[11px] font-semibold rounded-md border border-border bg-background text-muted-foreground hover:text-foreground hover:border-muted-foreground/40 transition-colors duration-150 whitespace-nowrap"
+                  className="h-6 px-2.5 text-[11px] font-semibold rounded border transition-colors duration-150 whitespace-nowrap"
+                  style={{
+                    background: "#ffffff",
+                    borderColor: "rgba(0,0,0,0.12)",
+                    color: "#615d59",
+                  }}
+                  onMouseEnter={(e) => { ;(e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.25)" }}
+                  onMouseLeave={(e) => { ;(e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.12)" }}
                 >
                   ← {prevColumn.title}
                 </button>
@@ -228,7 +248,10 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 <button
                   type="button"
                   onClick={() => handleColumnChange(nextColumn.id)}
-                  className="h-6 px-2.5 text-[11px] font-semibold rounded-md bg-foreground text-background hover:bg-foreground/90 transition-colors duration-150 whitespace-nowrap"
+                  className="h-6 px-2.5 text-[11px] font-semibold rounded transition-colors duration-150 whitespace-nowrap"
+                  style={{ background: "#0075de", color: "#ffffff" }}
+                  onMouseEnter={(e) => { ;(e.currentTarget as HTMLElement).style.background = "#005bab" }}
+                  onMouseLeave={(e) => { ;(e.currentTarget as HTMLElement).style.background = "#0075de" }}
                 >
                   {nextColumn.title} →
                 </button>

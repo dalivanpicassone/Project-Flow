@@ -42,13 +42,13 @@ export function CreateColumnDialog({ onCreate }: CreateColumnDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button
-            variant="outline"
-            className="shrink-0 text-[#615d59] hover:text-foreground border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.2)]"
+          <button
+            type="button"
+            className="flex items-center gap-2 h-9 px-3 text-[13px] font-medium text-[#a39e98] hover:text-[#615d59] hover:bg-[rgba(0,0,0,0.04)] rounded-md border border-dashed border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.2)] transition-colors duration-150 whitespace-nowrap shrink-0"
           />
         }
       >
-        <Plus className="mr-2 h-4 w-4" />
+        <Plus className="h-4 w-4 shrink-0" />
         Добавить колонку
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">

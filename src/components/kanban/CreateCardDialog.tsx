@@ -55,15 +55,14 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button
-            variant="ghost"
-            size="sm"
-            className="w-full justify-start text-[#a39e98] hover:text-[#615d59] border border-dashed border-[rgba(0,0,0,0.1)] hover:border-[rgba(0,0,0,0.2)] hover:bg-white rounded-lg transition-all duration-150"
+          <button
+            type="button"
+            className="w-full flex items-center gap-1.5 px-1 py-1.5 text-[12px] font-medium text-[#a39e98] hover:text-[#615d59] hover:bg-[rgba(0,0,0,0.04)] rounded-md transition-colors duration-150"
           />
         }
       >
-        <Plus className="mr-1 h-4 w-4" />
-        Добавить карточку
+        <Plus className="h-3.5 w-3.5 shrink-0" />
+        Добавить задачу
       </DialogTrigger>
       <DialogContent className="sm:max-w-sm">
         <DialogHeader>

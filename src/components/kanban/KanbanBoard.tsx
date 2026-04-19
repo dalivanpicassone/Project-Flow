@@ -149,12 +149,15 @@ export function KanbanBoard({
     const cardSkeletonKeys = ["card-1", "card-2", "card-3"]
 
     return (
-      <div className="flex gap-4 p-6">
+      <div className="flex gap-5 px-2 py-1">
         {columnSkeletonKeys.map((columnKey) => (
-          <div key={columnKey} className="w-72 shrink-0 space-y-2">
-            <Skeleton className="h-6 w-32 rounded-md" />
+          <div key={columnKey} className="w-[272px] shrink-0 space-y-2">
+            <div className="flex items-center gap-2 h-9 px-1">
+              <Skeleton className="h-2.5 w-2.5 rounded-full" />
+              <Skeleton className="h-4 w-28 rounded-md" />
+            </div>
             {cardSkeletonKeys.map((cardKey) => (
-              <Skeleton key={`${columnKey}-${cardKey}`} className="h-16 w-full rounded-lg" />
+              <Skeleton key={`${columnKey}-${cardKey}`} className="h-[72px] w-full rounded-lg" />
             ))}
           </div>
         ))}
@@ -170,7 +173,7 @@ export function KanbanBoard({
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 items-start overflow-x-auto pb-6 px-1 min-h-[calc(100vh-10rem)]">
+      <div className="flex gap-5 items-start overflow-x-auto pb-8 px-2 min-h-[calc(100vh-10rem)]">
         {columns.map((column) => (
           <KanbanColumn
             key={column.id}
@@ -192,11 +195,20 @@ export function KanbanBoard({
 
       <DragOverlay>
         {activeCard && (
-          <div className="rotate-1 scale-[1.02] opacity-90 shadow-elevated cursor-grabbing transition-transform duration-150">
+          <div
+            className="cursor-grabbing"
+            style={{
+              transform: "rotate(1.5deg) scale(1.025)",
+              opacity: 0.96,
+              boxShadow:
+                "rgba(0,0,0,0.1) 0px 12px 40px, rgba(0,0,0,0.06) 0px 4px 12px",
+              borderRadius: "8px",
+            }}
+          >
             <KanbanCard
               card={activeCard}
               onClick={() => {}}
-              colColor={columns.find((c) => c.id === activeCard.column_id)?.color ?? "#6b7280"}
+              colColor={columns.find((c) => c.id === activeCard.column_id)?.color ?? "#a39e98"}
               assigneeProfile={
                 activeCard.assignee_id ? memberProfilesMap[activeCard.assignee_id] : undefined
               }

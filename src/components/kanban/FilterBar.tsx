@@ -35,10 +35,34 @@ const PRIORITY_BADGES: {
   color: string
   activeStyle: React.CSSProperties
 }[] = [
-  { value: "critical", Icon: AlertCircle, label: "Критично", color: "text-[#d44c47]", activeStyle: { background: "rgba(212,76,71,0.08)", outline: "1.5px solid rgba(212,76,71,0.3)" } },
-  { value: "high",     Icon: ArrowUp,    label: "Высокий",  color: "text-[#cb912f]", activeStyle: { background: "rgba(203,145,47,0.08)", outline: "1.5px solid rgba(203,145,47,0.3)" } },
-  { value: "medium",   Icon: Minus,      label: "Средний",  color: "text-[#0075de]", activeStyle: { background: "rgba(0,117,222,0.08)", outline: "1.5px solid rgba(0,117,222,0.3)" } },
-  { value: "low",      Icon: ArrowDown,  label: "Низкий",   color: "text-[#448361]", activeStyle: { background: "rgba(68,131,97,0.08)", outline: "1.5px solid rgba(68,131,97,0.3)" } },
+  {
+    value: "critical",
+    Icon: AlertCircle,
+    label: "Критично",
+    color: "text-[#d44c47]",
+    activeStyle: { background: "rgba(212,76,71,0.07)", outline: "1.5px solid rgba(212,76,71,0.28)" },
+  },
+  {
+    value: "high",
+    Icon: ArrowUp,
+    label: "Высокий",
+    color: "text-[#cb912f]",
+    activeStyle: { background: "rgba(203,145,47,0.08)", outline: "1.5px solid rgba(203,145,47,0.28)" },
+  },
+  {
+    value: "medium",
+    Icon: Minus,
+    label: "Средний",
+    color: "text-[#0075de]",
+    activeStyle: { background: "rgba(0,117,222,0.07)", outline: "1.5px solid rgba(0,117,222,0.28)" },
+  },
+  {
+    value: "low",
+    Icon: ArrowDown,
+    label: "Низкий",
+    color: "text-[#448361]",
+    activeStyle: { background: "rgba(68,131,97,0.07)", outline: "1.5px solid rgba(68,131,97,0.28)" },
+  },
 ]
 
 const DUE_DATE_OPTIONS: { value: DueDateFilter; label: string }[] = [
@@ -62,7 +86,8 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
           placeholder="Поиск..."
-          className="h-7 pl-7 pr-3 rounded border border-[rgba(0,0,0,0.12)] bg-white text-xs text-foreground placeholder:text-[#a39e98] focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring w-36 transition-colors"
+          className="h-7 pl-7 pr-3 rounded border text-xs text-[rgba(0,0,0,0.9)] placeholder:text-[#a39e98] focus:outline-none focus:ring-2 focus:ring-[rgba(0,117,222,0.25)] focus:border-[rgba(0,117,222,0.4)] w-36 transition-colors"
+          style={{ background: "#ffffff", borderColor: "rgba(0,0,0,0.12)", color: "rgba(0,0,0,0.9)" }}
         />
         {filters.search && (
           <button
@@ -85,9 +110,7 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
               type="button"
               title={label}
               onClick={() => onChange({ ...filters, priority: isActive ? "all" : value })}
-              className={`h-7 w-7 rounded flex items-center justify-center transition-all ${
-                isActive ? "" : "hover:bg-[rgba(0,0,0,0.04)] opacity-40 hover:opacity-70"
-              }`}
+              className={`h-7 w-7 rounded flex items-center justify-center transition-all duration-100 ${!isActive ? "opacity-40 hover:opacity-70" : ""}`}
               style={isActive ? activeStyle : undefined}
             >
               <Icon className={`h-3.5 w-3.5 ${color}`} />
@@ -102,8 +125,13 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
         <select
           value={filters.dueDate}
           onChange={(e) => onChange({ ...filters, dueDate: e.target.value as DueDateFilter })}
-          className="h-7 px-2 rounded border border-[rgba(0,0,0,0.12)] text-xs bg-white text-[#615d59] focus:outline-none cursor-pointer appearance-none hover:border-[rgba(0,0,0,0.2)] transition-colors"
-          style={{ backgroundImage: "none" }}
+          className="h-7 px-2 rounded border text-xs focus:outline-none cursor-pointer appearance-none hover:border-[rgba(0,0,0,0.2)] transition-colors"
+          style={{
+            background: "#ffffff",
+            borderColor: "rgba(0,0,0,0.12)",
+            color: "#615d59",
+            backgroundImage: "none",
+          }}
         >
           {DUE_DATE_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>

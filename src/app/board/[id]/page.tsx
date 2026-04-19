@@ -90,7 +90,7 @@ export default function BoardPage() {
       </div>
 
       {/* Kanban */}
-      <div className="flex-1 overflow-auto p-5 bg-[#f6f5f4]">
+      <div className="flex-1 overflow-auto pt-5 pb-6 px-6 bg-[#f6f5f4]">
         <KanbanBoard
           boardId={id}
           onCardClick={handleCardClick}
