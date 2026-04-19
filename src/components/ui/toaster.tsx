@@ -17,8 +17,8 @@ const variantConfig = {
     stripe: "bg-border",
   },
   success: {
-    icon: <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />,
-    stripe: "bg-emerald-500",
+    icon: <CheckCircle2 className="h-4 w-4 text-[#448361] mt-0.5 shrink-0" />,
+    stripe: "bg-[#448361]",
   },
   destructive: {
     icon: <AlertCircle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />,

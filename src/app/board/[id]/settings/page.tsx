@@ -152,7 +152,7 @@ export default function BoardSettingsPage() {
                       <div key={member.id} className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <Avatar className="h-8 w-8 shrink-0">
-                            <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-semibold">
+                            <AvatarFallback className="bg-[#f2f9ff] text-[#0075de] text-xs font-semibold">
                               {getInitials(member.profile.full_name, member.profile.email)}
                             </AvatarFallback>
                           </Avatar>
