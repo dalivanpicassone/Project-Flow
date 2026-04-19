@@ -19,14 +19,14 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 
 const BOARD_COLORS = [
-  "#1E40AF",
-  "#065F46",
+  "#0075de",
+  "#448361",
   "#7C3AED",
-  "#B45309",
-  "#BE123C",
+  "#cb912f",
+  "#d44c47",
   "#0E7490",
   "#1D4ED8",
-  "#374151",
+  "#31302e",
 ]
 
 export function CreateBoardDialog() {
@@ -47,12 +47,10 @@ export function CreateBoardDialog() {
   const onSubmit = async (data: CreateBoardInput) => {
     setSubmitError(null)
     const { error } = await createBoard({ ...data, color: selectedColor })
-
     if (error) {
       setSubmitError("Не удалось создать доску. Попробуйте ещё раз.")
       return
     }
-
     reset()
     setSelectedColor(BOARD_COLORS[0])
     setOpen(false)
@@ -62,7 +60,7 @@ export function CreateBoardDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button className="bg-[#6366f1] hover:bg-[#4f52d4] text-white text-xs font-semibold h-[30px] px-3.5 rounded-lg" />
+          <Button className="text-[13px] font-semibold h-7 px-3" />
         }
       >
         <Plus className="mr-1.5 h-3.5 w-3.5" />
@@ -76,9 +74,8 @@ export function CreateBoardDialog() {
           <div className="space-y-1">
             <Label htmlFor="title">Название *</Label>
             <Input id="title" placeholder="Мой проект" {...register("title")} />
-            {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
-
           <div className="space-y-1">
             <Label htmlFor="description">Описание</Label>
             <Textarea
@@ -88,26 +85,25 @@ export function CreateBoardDialog() {
               {...register("description")}
             />
           </div>
-
           <div className="space-y-2">
             <Label htmlFor="board-color">Цвет доски</Label>
-            <div id="board-color" className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-wrap">
               {BOARD_COLORS.map((color) => (
                 <button
                   key={color}
                   type="button"
                   onClick={() => setSelectedColor(color)}
-                  className="w-8 h-8 rounded-full border-2 transition-transform hover:scale-110"
+                  className="w-7 h-7 rounded-full transition-transform hover:scale-110"
                   style={{
                     backgroundColor: color,
-                    borderColor: selectedColor === color ? "#000" : "transparent",
+                    outline: selectedColor === color ? `2px solid ${color}` : "2px solid transparent",
+                    outlineOffset: "2px",
                   }}
                 />
               ))}
             </div>
           </div>
-
-          {submitError && <p className="text-sm text-red-500">{submitError}</p>}
+          {submitError && <p className="text-sm text-destructive">{submitError}</p>}
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Отмена

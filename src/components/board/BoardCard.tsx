@@ -54,44 +54,43 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
 
   return (
     <>
-      <div className="group relative flex flex-col rounded-lg bg-card border border-border hover:border-foreground/20 transition-[border-color,box-shadow] duration-200 overflow-hidden hover:shadow-card-hover">
+      <div
+        className="group relative flex flex-col rounded-xl bg-white overflow-hidden transition-[box-shadow] duration-150 hover:shadow-card-hover"
+        style={{
+          border: "1px solid rgba(0,0,0,0.1)",
+          boxShadow: "var(--shadow-card)",
+        }}
+      >
         {/* Clickable link overlay */}
-        <Link
-          href={`/board/${board.id}`}
-          className="absolute inset-0 z-0"
-          aria-label={board.title}
-        />
+        <Link href={`/board/${board.id}`} className="absolute inset-0 z-0" aria-label={board.title} />
 
         {/* Top accent bar */}
-        <div className="h-[4px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
+        <div className="h-[3px] w-full shrink-0" style={{ backgroundColor: accentColor }} />
 
         {/* Card body */}
         <div className="relative z-10 p-4 flex flex-col gap-3 pointer-events-none flex-1">
           {/* Header: avatar + title + dropdown */}
           <div className="flex items-start gap-3">
-            {/* Board avatar */}
             <div
-              className="w-7 h-7 rounded-md flex items-center justify-center shrink-0"
-              style={{ background: `${accentColor}22`, border: `1px solid ${accentColor}44` }}
+              className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+              style={{ background: `${accentColor}18`, border: `1px solid ${accentColor}28` }}
             >
               <span className="text-xs font-bold leading-none" style={{ color: accentColor }}>
                 {initial}
               </span>
             </div>
 
-            {/* Title + description */}
             <div className="flex-1 min-w-0 pt-0.5">
-              <h3 className="text-sm font-medium text-foreground leading-tight line-clamp-2">
+              <h3 className="text-[14px] font-semibold text-foreground leading-tight tracking-[-0.01em] line-clamp-2">
                 {board.title}
               </h3>
               {board.description && (
-                <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
+                <p className="text-[13px] text-[#615d59] mt-1 line-clamp-2 leading-relaxed">
                   {board.description}
                 </p>
               )}
             </div>
 
-            {/* Dropdown — re-enable pointer events */}
             <div className="shrink-0 pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-150">
               <DropdownMenu>
                 <DropdownMenuTrigger
@@ -99,7 +98,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                      className="h-7 w-7 text-[#a39e98] hover:text-foreground"
                     />
                   }
                 >
@@ -128,14 +127,13 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center gap-1.5 pt-2.5 border-t border-border/60 mt-auto">
-            <Clock className="h-3 w-3 text-muted-foreground/50 shrink-0" />
-            <span className="text-[11px] text-muted-foreground/50 tabular-nums">
+          <div className="flex items-center gap-1.5 pt-2.5 border-t border-[rgba(0,0,0,0.06)] mt-auto">
+            <Clock className="h-3 w-3 text-[#a39e98] shrink-0" />
+            <span className="text-[11px] text-[#a39e98] tabular-nums">
               {formatDistanceToNow(new Date(board.created_at), { addSuffix: true, locale: ru })}
             </span>
           </div>
         </div>
-
       </div>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
@@ -148,10 +146,7 @@ export function BoardCard({ board, onArchive, onDelete }: BoardCardProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-destructive hover:bg-destructive/90"
-            >
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
               Удалить
             </AlertDialogAction>
           </AlertDialogFooter>

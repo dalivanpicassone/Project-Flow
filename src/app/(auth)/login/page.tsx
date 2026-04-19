@@ -10,18 +10,18 @@ export default function LoginPage() {
       {/* Decorative blobs */}
       <div
         className="absolute top-0 right-0 w-[600px] h-[600px] -translate-y-1/2 translate-x-1/3 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(0,117,222,0.07) 0%, transparent 70%)" }}
       />
       <div
         className="absolute bottom-0 left-0 w-[500px] h-[500px] translate-y-1/2 -translate-x-1/3 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(0,117,222,0.05) 0%, transparent 70%)" }}
       />
 
       <div className="relative w-full max-w-sm">
         {/* Logo mark */}
         <div className="flex flex-col items-center mb-8">
           <div
-            className="w-12 h-12 bg-[#6366f1] rounded-2xl flex items-center justify-center mb-4"
+            className="w-12 h-12 bg-[#0075de] rounded-xl flex items-center justify-center mb-4"
             style={{ boxShadow: "var(--shadow-brand)" }}
           >
             <span className="font-bold text-white text-xl tracking-tight">A</span>
@@ -34,7 +34,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground mt-6">
           Нет аккаунта?{" "}
-          <Link href="/register" className="text-[#6366f1] hover:text-[#4f52c9] font-semibold transition-colors">
+          <Link href="/register" className="text-[#0075de] hover:text-[#005bab] font-semibold transition-colors">
             Зарегистрироваться
           </Link>
         </p>

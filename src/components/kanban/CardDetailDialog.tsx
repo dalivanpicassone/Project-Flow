@@ -55,13 +55,11 @@ const priorityLabels: Record<Priority, string> = {
   low: "Низкий",
 }
 
-const priorityChipStyles: Record<Priority, string> = {
-  critical:
-    "bg-red-50 border-red-200 text-red-700 dark:bg-red-950/30 dark:border-red-900 dark:text-red-400",
-  high: "bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-950/30 dark:border-amber-900 dark:text-amber-400",
-  medium:
-    "bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-950/30 dark:border-blue-900 dark:text-blue-400",
-  low: "bg-[#EDF3EC] border-[#c6d8c5] text-[#346538] dark:bg-green-950/30 dark:border-green-900 dark:text-green-400",
+const priorityChipColors: Record<Priority, { bg: string; border: string; color: string }> = {
+  critical: { bg: "rgba(212,76,71,0.07)", border: "rgba(212,76,71,0.25)", color: "#d44c47" },
+  high: { bg: "rgba(203,145,47,0.08)", border: "rgba(203,145,47,0.28)", color: "#cb912f" },
+  medium: { bg: "#f2f9ff", border: "rgba(0,117,222,0.2)", color: "#0075de" },
+  low: { bg: "#EDF3EC", border: "#c6d8c5", color: "#346538" },
 }
 
 const priorityDotColors: Record<Priority, string> = {
@@ -294,10 +292,12 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                       ]
                     handlePriorityChange(nextPriority)
                   }}
-                  className={[
-                    "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11.5px] font-semibold transition-all duration-150 hover:opacity-80",
-                    priorityChipStyles[currentPriority],
-                  ].join(" ")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11.5px] font-semibold transition-all duration-150 hover:opacity-80"
+                  style={{
+                    background: priorityChipColors[currentPriority].bg,
+                    borderColor: priorityChipColors[currentPriority].border,
+                    color: priorityChipColors[currentPriority].color,
+                  }}
                   title="Нажмите чтобы изменить приоритет"
                 >
                   <span
@@ -434,7 +434,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                       type="submit"
                       size="sm"
                       disabled={isSubmitting}
-                      className="bg-foreground text-background hover:bg-foreground/90 h-7 text-xs"
+                      className="h-7 text-xs"
                     >
                       Сохранить
                     </Button>
@@ -473,7 +473,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   className={[
                     "flex items-center gap-1.5 pb-2.5 mr-5 text-[12px] font-semibold border-b-2 transition-colors duration-150",
                     activeTab === "checklist"
-                      ? "border-foreground text-foreground"
+                      ? "border-[#0075de] text-[#0075de]"
                       : "border-transparent text-muted-foreground hover:text-foreground",
                   ].join(" ")}
                 >
@@ -485,7 +485,7 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                   className={[
                     "flex items-center gap-1.5 pb-2.5 text-[12px] font-semibold border-b-2 transition-colors duration-150",
                     activeTab === "activity"
-                      ? "border-foreground text-foreground"
+                      ? "border-[#0075de] text-[#0075de]"
                       : "border-transparent text-muted-foreground hover:text-foreground",
                   ].join(" ")}
                 >
@@ -567,14 +567,14 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                     render={
                       <button
                         type="button"
-                        className={[
-                          "w-full h-8 px-2.5 rounded-lg border text-[12px] font-semibold flex items-center gap-2 transition-colors duration-150",
+                        className="w-full h-8 px-2.5 rounded-lg border text-[12px] font-semibold flex items-center gap-2 transition-colors duration-150"
+                        style={
                           isOverdue
-                            ? "bg-red-50 border-red-200 text-red-700 dark:bg-red-950/30 dark:border-red-900 dark:text-red-400"
+                            ? { background: "rgba(212,76,71,0.07)", borderColor: "rgba(212,76,71,0.25)", color: "#d44c47" }
                             : card.due_date
-                              ? "bg-[#EDF3EC] border-[#c6d8c5] text-[#346538] dark:bg-green-950/30 dark:border-green-900 dark:text-green-400"
-                              : "bg-background border-border text-muted-foreground hover:border-muted-foreground/40",
-                        ].join(" ")}
+                              ? { background: "#EDF3EC", borderColor: "#c6d8c5", color: "#346538" }
+                              : { background: "var(--background)", borderColor: "var(--border)", color: "var(--muted-foreground)" }
+                        }
                       >
                         <CalendarDays className="h-3.5 w-3.5 shrink-0" />
                         {card.due_date
@@ -619,14 +619,15 @@ export function CardDetailDialog({ card, boardId, open, onOpenChange }: CardDeta
                 </p>
                 <div className="bg-background border border-border rounded-lg px-3 py-2 text-center">
                   <p
-                    className={[
-                      "text-2xl font-black leading-none",
-                      cycleDays > 7
-                        ? "text-red-600 dark:text-red-400"
-                        : cycleDays > 3
-                          ? "text-amber-500 dark:text-amber-400"
-                          : "text-foreground",
-                    ].join(" ")}
+                    className="text-2xl font-black leading-none"
+                    style={{
+                      color:
+                        cycleDays > 7
+                          ? "#d44c47"
+                          : cycleDays > 3
+                            ? "#cb912f"
+                            : "var(--foreground)",
+                    }}
                   >
                     {cycleDays}
                   </p>

@@ -111,7 +111,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
                       <div className="flex gap-1.5">
                         <Button
                           size="sm"
-                          className="h-6 px-2 text-xs bg-foreground text-background hover:bg-foreground/90"
+                          className="h-6 px-2 text-xs"
                           onClick={() => handleConfirmEdit(comment.id)}
                         >
                           <Check className="h-3 w-3 mr-1" />
@@ -181,7 +181,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
           size="sm"
           disabled={!newBody.trim() || isSending}
           onClick={handleSend}
-          className="self-end bg-foreground text-background hover:bg-foreground/90 h-8 w-8 p-0"
+          className="self-end h-8 w-8 p-0"
         >
           <Send className="h-3.5 w-3.5" />
         </Button>

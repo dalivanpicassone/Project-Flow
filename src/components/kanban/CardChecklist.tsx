@@ -39,11 +39,11 @@ export function CardChecklist({ cardId }: CardChecklistProps) {
     <div className="space-y-4">
       {/* Section heading */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-medium text-[#c4c7d1]">
-          <CheckSquare className="h-4 w-4 text-[#6366f1]" />
+        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+          <CheckSquare className="h-4 w-4 text-[#0075de]" />
           Чеклисты
           {totalItems > 0 && (
-            <span className="text-[#4b5563] text-xs">
+            <span className="text-[#a39e98] text-xs">
               {checkedItems}/{totalItems}
             </span>
           )}
@@ -51,7 +51,7 @@ export function CardChecklist({ cardId }: CardChecklistProps) {
         <Button
           size="sm"
           variant="ghost"
-          className="h-6 px-2 text-[11px] text-[#6b7280] hover:text-[#818cf8] hover:bg-[#16161e]"
+          className="h-6 px-2 text-[11px] text-[#615d59] hover:text-[#0075de] hover:bg-[#f2f9ff]"
           disabled={isAdding || isLoading}
           onClick={handleAddChecklist}
         >
@@ -63,19 +63,19 @@ export function CardChecklist({ cardId }: CardChecklistProps) {
       {/* Global progress bar */}
       {totalItems > 0 && (
         <div className="flex items-center gap-2">
-          <span className="text-[10px] text-[#4b5563] w-7 shrink-0 text-right">
+          <span className="text-[10px] text-[#a39e98] w-7 shrink-0 text-right">
             {overallPercent}%
           </span>
-          <div className="flex-1 h-1.5 bg-[#1e1e2a] rounded-full overflow-hidden">
+          <div className="flex-1 h-1.5 bg-[rgba(0,0,0,0.07)] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#6366f1] rounded-full transition-all duration-300"
+              className="h-full bg-[#0075de] rounded-full transition-all duration-300"
               style={{ width: `${overallPercent}%` }}
             />
           </div>
         </div>
       )}
 
-      {isLoading && <p className="text-xs text-[#4b5563]">Загрузка...</p>}
+      {isLoading && <p className="text-xs text-[#a39e98]">Загрузка...</p>}
 
       {/* Each checklist */}
       {checklists.map((cl) => (
@@ -91,7 +91,7 @@ export function CardChecklist({ cardId }: CardChecklistProps) {
       ))}
 
       {checklists.length === 0 && !isLoading && (
-        <p className="text-xs text-[#4b5563] italic">
+        <p className="text-xs text-[#a39e98] italic">
           Чеклистов нет. Нажмите «Добавить» чтобы создать первый.
         </p>
       )}
@@ -151,7 +151,7 @@ function ChecklistBlock({
           <Input
             value={titleValue}
             onChange={(e) => setTitleValue(e.target.value)}
-            className="h-7 text-xs flex-1 bg-[#111118] border-[#1e1e2a] text-[#e2e8f0]"
+            className="h-7 text-xs flex-1"
             autoFocus
             onBlur={handleTitleSave}
             onKeyDown={(e) => {
@@ -165,20 +165,20 @@ function ChecklistBlock({
         ) : (
           <button
             type="button"
-            className="text-xs font-semibold text-[#c4c7d1] hover:text-white transition-colors flex-1 text-left"
+            className="text-xs font-semibold text-foreground hover:text-[#0075de] transition-colors flex-1 text-left"
             onClick={() => setIsEditingTitle(true)}
           >
             {checklist.title}
           </button>
         )}
         {total > 0 && (
-          <span className="text-[10px] text-[#4b5563] shrink-0">
+          <span className="text-[10px] text-[#a39e98] shrink-0">
             {checkedCount}/{total}
           </span>
         )}
         <button
           type="button"
-          className="opacity-0 group-hover/cl:opacity-100 transition-opacity text-[#4b5563] hover:text-red-400"
+          className="opacity-0 group-hover/cl:opacity-100 transition-opacity text-[#a39e98] hover:text-[#d44c47]"
           onClick={onDelete}
           title="Удалить чеклист"
         >
@@ -189,9 +189,9 @@ function ChecklistBlock({
       {/* Progress bar for this checklist */}
       {total > 0 && (
         <div className="flex items-center gap-2 pl-0">
-          <div className="flex-1 h-1 bg-[#1e1e2a] rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-[rgba(0,0,0,0.07)] rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#6366f1] rounded-full transition-all duration-300"
+              className="h-full bg-[#0075de] rounded-full transition-all duration-300"
               style={{ width: `${percent}%` }}
             />
           </div>
@@ -205,11 +205,12 @@ function ChecklistBlock({
             {/* Custom checkbox */}
             <button
               type="button"
-              className={`h-4 w-4 rounded border shrink-0 flex items-center justify-center transition-colors ${
+              className="h-4 w-4 rounded border shrink-0 flex items-center justify-center transition-colors"
+              style={
                 item.is_checked
-                  ? "bg-[#6366f1] border-[#6366f1]"
-                  : "border-[#2a2a3a] bg-transparent hover:border-[#6366f1]"
-              }`}
+                  ? { background: "#0075de", borderColor: "#0075de" }
+                  : { background: "transparent", borderColor: "rgba(0,0,0,0.2)" }
+              }
               onClick={() => onToggle(item.id, !item.is_checked)}
             >
               {item.is_checked && (
@@ -230,17 +231,18 @@ function ChecklistBlock({
               )}
             </button>
             <span
-              className={`text-sm flex-1 leading-tight ${
+              className="text-sm flex-1 leading-tight"
+              style={
                 item.is_checked
-                  ? "line-through text-[#4b5563]"
-                  : "text-[#c4c7d1]"
-              }`}
+                  ? { textDecoration: "line-through", color: "#a39e98" }
+                  : { color: "var(--foreground)" }
+              }
             >
               {item.title}
             </span>
             <button
               type="button"
-              className="opacity-0 group-hover/item:opacity-100 transition-opacity text-[#374151] hover:text-red-400 shrink-0"
+              className="opacity-0 group-hover/item:opacity-100 transition-opacity text-[#a39e98] hover:text-[#d44c47] shrink-0"
               onClick={() => onDeleteItem(item.id)}
             >
               <X className="h-3 w-3" />
@@ -256,7 +258,7 @@ function ChecklistBlock({
             value={newItemTitle}
             onChange={(e) => setNewItemTitle(e.target.value)}
             placeholder="Новый пункт..."
-            className="h-7 text-xs flex-1 bg-[#111118] border-[#1e1e2a] text-[#e2e8f0] placeholder:text-[#4b5563]"
+            className="h-7 text-xs flex-1"
             autoFocus
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -271,7 +273,7 @@ function ChecklistBlock({
           />
           <Button
             size="sm"
-            className="h-7 px-2 text-xs bg-[#6366f1] hover:bg-[#4f52d4] shrink-0"
+            className="h-7 px-2 text-xs shrink-0"
             disabled={isAddingItem || !newItemTitle.trim()}
             onClick={handleAddItem}
           >
@@ -280,7 +282,7 @@ function ChecklistBlock({
           <Button
             size="sm"
             variant="ghost"
-            className="h-7 w-7 p-0 text-[#6b7280]"
+            className="h-7 w-7 p-0 text-muted-foreground"
             onClick={() => {
               setShowNewItemInput(false)
               setNewItemTitle("")
@@ -292,7 +294,7 @@ function ChecklistBlock({
       ) : (
         <button
           type="button"
-          className="flex items-center gap-1.5 text-xs text-[#4b5563] hover:text-[#818cf8] transition-colors pl-1 py-0.5"
+          className="flex items-center gap-1.5 text-xs text-[#a39e98] hover:text-[#0075de] transition-colors pl-1 py-0.5"
           onClick={() => setShowNewItemInput(true)}
         >
           <Plus className="h-3 w-3" />

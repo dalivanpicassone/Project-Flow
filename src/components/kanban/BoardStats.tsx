@@ -1,6 +1,5 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useCardStore } from "@/store/cardStore"
 import { useColumnStore } from "@/store/columnStore"
@@ -12,48 +11,41 @@ export function BoardStats() {
   const cards = useCardStore((s) => s.cards)
 
   const total = cards.length
-  const overdue = cards.filter((c) => {
-    if (!c.due_date) return false
-    return new Date(c.due_date) < new Date()
-  }).length
-
+  const overdue = cards.filter((c) => c.due_date && new Date(c.due_date) < new Date()).length
   const stuck = cards.filter((c) => {
     const start = c.moved_at ? new Date(c.moved_at) : new Date(c.created_at)
     return differenceInDays(new Date(), start) > 7
   }).length
-
   const wipViolations = columns.filter((col) => {
     if (!col.wip_limit) return false
-    const count = cards.filter((c) => c.column_id === col.id).length
-    return count > col.wip_limit
+    return cards.filter((c) => c.column_id === col.id).length > col.wip_limit
   }).length
 
   return (
     <TooltipProvider>
-      <div className="flex items-center gap-3 text-sm">
-        {/* Per-column counters */}
-        <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-sm">
+        {/* Per-column counts */}
+        <div className="flex items-center gap-1.5">
           {columns.map((col) => {
             const count = cards.filter((c) => c.column_id === col.id).length
             const exceeded = col.wip_limit !== null && count > col.wip_limit
             return (
               <Tooltip key={col.id}>
                 <TooltipTrigger>
-                  <Badge
-                    variant="outline"
-                    className={`cursor-default ${
+                  <span
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full cursor-default"
+                    style={
                       exceeded
-                        ? "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900"
-                        : "bg-card text-muted-foreground"
-                    }`}
+                        ? { background: "rgba(212,76,71,0.08)", color: "#d44c47", border: "1px solid rgba(212,76,71,0.2)" }
+                        : { background: "#f6f5f4", color: "#615d59", border: "1px solid rgba(0,0,0,0.06)" }
+                    }
                   >
-                    {col.title}: {count}
-                    {col.wip_limit ? `/${col.wip_limit}` : ""}
-                  </Badge>
+                    {col.title}: {count}{col.wip_limit ? `/${col.wip_limit}` : ""}
+                  </span>
                 </TooltipTrigger>
                 <TooltipContent>
                   {exceeded
-                    ? `⚠️ WIP-лимит превышен (${count}/${col.wip_limit})`
+                    ? `WIP-лимит превышен (${count}/${col.wip_limit})`
                     : `${count} задач в колонке`}
                 </TooltipContent>
               </Tooltip>
@@ -61,17 +53,16 @@ export function BoardStats() {
           })}
         </div>
 
-        {/* Summary badges */}
         {overdue > 0 && (
           <Tooltip>
             <TooltipTrigger>
-              <Badge
-                variant="outline"
-                className="bg-red-50 text-red-600 border-red-200 gap-1 cursor-default dark:bg-red-950/40 dark:text-red-400 dark:border-red-900"
+              <span
+                className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full cursor-default"
+                style={{ background: "rgba(212,76,71,0.08)", color: "#d44c47", border: "1px solid rgba(212,76,71,0.2)" }}
               >
                 <AlertTriangle className="h-3 w-3" />
                 {overdue} просрочено
-              </Badge>
+              </span>
             </TooltipTrigger>
             <TooltipContent>Задачи с истёкшим дедлайном</TooltipContent>
           </Tooltip>
@@ -80,13 +71,13 @@ export function BoardStats() {
         {stuck > 0 && (
           <Tooltip>
             <TooltipTrigger>
-              <Badge
-                variant="outline"
-                className="bg-orange-50 text-orange-600 border-orange-200 gap-1 cursor-default dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-900"
+              <span
+                className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full cursor-default"
+                style={{ background: "rgba(203,145,47,0.08)", color: "#cb912f", border: "1px solid rgba(203,145,47,0.2)" }}
               >
                 <Clock className="h-3 w-3" />
                 {stuck} застряло
-              </Badge>
+              </span>
             </TooltipTrigger>
             <TooltipContent>Задачи в одной колонке более 7 дней</TooltipContent>
           </Tooltip>
@@ -95,29 +86,29 @@ export function BoardStats() {
         {wipViolations > 0 && (
           <Tooltip>
             <TooltipTrigger>
-              <Badge
-                variant="outline"
-                className="bg-yellow-50 text-yellow-700 border-yellow-200 gap-1 cursor-default dark:bg-yellow-950/40 dark:text-yellow-400 dark:border-yellow-900"
+              <span
+                className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full cursor-default"
+                style={{ background: "rgba(203,145,47,0.08)", color: "#cb912f", border: "1px solid rgba(203,145,47,0.2)" }}
               >
                 <AlertTriangle className="h-3 w-3" />
                 {wipViolations} WIP
-              </Badge>
+              </span>
             </TooltipTrigger>
             <TooltipContent>Превышен WIP-лимит в {wipViolations} колонке(ах)</TooltipContent>
           </Tooltip>
         )}
 
         {overdue === 0 && stuck === 0 && wipViolations === 0 && total > 0 && (
-          <Badge
-            variant="outline"
-            className="bg-green-50 text-green-700 border-green-200 gap-1 cursor-default dark:bg-green-950/40 dark:text-green-400 dark:border-green-900"
+          <span
+            className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full cursor-default"
+            style={{ background: "rgba(68,131,97,0.08)", color: "#448361", border: "1px solid rgba(68,131,97,0.2)" }}
           >
             <CheckCircle2 className="h-3 w-3" />
             Всё в порядке
-          </Badge>
+          </span>
         )}
 
-        <span className="text-muted-foreground text-xs ml-1">Всего: {total}</span>
+        <span className="text-[11px] text-[#a39e98] ml-1">Всего: {total}</span>
       </div>
     </TooltipProvider>
   )

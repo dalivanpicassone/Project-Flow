@@ -23,7 +23,6 @@ export default function BoardPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [myTasksOnly, setMyTasksOnly] = useState(false)
 
-  // Always pass the live card from the store so dialog shows updated fields immediately
   const liveSelectedCard = selectedCard
     ? (storeCards.find((c) => c.id === selectedCard.id) ?? selectedCard)
     : null
@@ -41,61 +40,57 @@ export default function BoardPage() {
   return (
     <>
       {/* Topbar */}
-      <div className="h-14 border-b border-border px-5 flex items-center justify-between shrink-0 gap-4">
-        <div className="flex items-center gap-3">
+      <div className="h-[52px] border-b border-border px-5 flex items-center justify-between shrink-0 gap-4">
+        <div className="flex items-center gap-3 min-w-0">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => router.push("/dashboard")}
-            className="text-muted-foreground hover:text-foreground h-8 px-2.5 text-xs font-medium"
+            className="text-[#615d59] hover:text-foreground h-7 px-2 text-[13px] font-medium shrink-0"
           >
-            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
+            <ArrowLeft className="mr-1 h-3.5 w-3.5" />
             Все доски
           </Button>
-
-          {/* PM Analytics bar */}
-          <div className="overflow-x-auto">
+          <div className="w-px h-4 bg-[rgba(0,0,0,0.1)]" />
+          <div className="overflow-x-auto min-w-0">
             <BoardStats />
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <Button
-            variant="ghost"
-            size="sm"
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            type="button"
             onClick={() => setMyTasksOnly((v) => !v)}
             className={cn(
-              "text-xs h-[30px] px-3 rounded-md border",
+              "inline-flex items-center gap-1.5 h-7 px-3 text-[13px] font-medium rounded border transition-colors",
               myTasksOnly
-                ? "bg-foreground border-foreground text-background hover:bg-foreground/90"
-                : "bg-muted border-border text-muted-foreground hover:text-foreground"
+                ? "bg-[#0075de] border-[#0075de] text-white hover:bg-[#005bab]"
+                : "border-[rgba(0,0,0,0.12)] text-[#615d59] hover:bg-[#f6f5f4] hover:text-foreground"
             )}
           >
-            <User className="mr-1.5 h-3.5 w-3.5" />
+            <User className="h-3.5 w-3.5" />
             Мои задачи
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-md hover:text-foreground"
+          </button>
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 h-7 px-3 text-[13px] font-medium rounded border border-[rgba(0,0,0,0.12)] text-[#615d59] hover:bg-[#f6f5f4] hover:text-foreground transition-colors"
           >
-            <UserPlus className="mr-1.5 h-3.5 w-3.5" />
+            <UserPlus className="h-3.5 w-3.5" />
             Пригласить
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
+          </button>
+          <button
+            type="button"
             onClick={() => router.push(`/board/${id}/settings`)}
-            className="bg-muted border border-border text-muted-foreground text-xs h-[30px] px-3 rounded-md hover:text-foreground"
+            className="inline-flex items-center gap-1.5 h-7 px-3 text-[13px] font-medium rounded border border-[rgba(0,0,0,0.12)] text-[#615d59] hover:bg-[#f6f5f4] hover:text-foreground transition-colors"
           >
-            <Settings className="mr-1.5 h-3.5 w-3.5" />
+            <Settings className="h-3.5 w-3.5" />
             Настройки
-          </Button>
+          </button>
         </div>
       </div>
 
       {/* Kanban */}
-      <div className="flex-1 overflow-auto p-5">
+      <div className="flex-1 overflow-auto p-5 bg-[#f6f5f4]">
         <KanbanBoard
           boardId={id}
           onCardClick={handleCardClick}

@@ -5,17 +5,21 @@ import { CalendarClock } from "lucide-react"
 export function DueDateBadge({ dueDate }: { dueDate: string }) {
   const date = new Date(dueDate)
   if (!isValid(date)) return null
+
   const overdue = isPast(date) && !isToday(date)
   const dueToday = isToday(date)
 
-  const colorClass = overdue
-    ? "text-[oklch(0.65_0.2_25)]"
+  const style = overdue
+    ? { color: "#d44c47" }
     : dueToday
-      ? "text-[oklch(0.72_0.16_55)]"
-      : "text-muted-foreground"
+      ? { color: "#cb912f" }
+      : { color: "#a39e98" }
 
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-medium ${colorClass}`}>
+    <span
+      className="inline-flex items-center gap-1 text-xs font-medium"
+      style={style}
+    >
       <CalendarClock className="h-3 w-3 shrink-0" />
       {format(date, "d MMM", { locale: ru })}
     </span>

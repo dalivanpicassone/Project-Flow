@@ -1,12 +1,13 @@
 import { ThemeProvider } from "@/components/layout/ThemeProvider"
 import { Toaster } from "@/components/ui/toaster"
 import type { Metadata } from "next"
-import { Manrope } from "next/font/google"
+import { Inter } from "next/font/google"
 import "./globals.css"
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-sans",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" className={manrope.variable} suppressHydrationWarning>
+    <html lang="ru" className={inter.variable} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}

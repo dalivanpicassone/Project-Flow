@@ -35,11 +35,13 @@ export function Sidebar() {
 
       {/* Logo + App name */}
       <div className="px-4 pt-5 pb-4 border-b border-sidebar-border">
-        <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center flex-shrink-0">
-            <span className="font-bold text-background text-xs tracking-tight">A</span>
+        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+          <div className="w-[33px] h-[33px] rounded-lg bg-foreground flex items-center justify-center flex-shrink-0">
+            <span className="font-bold text-background text-sm tracking-tight">A</span>
           </div>
-          <div className="text-sm font-semibold text-sidebar-foreground leading-tight tracking-[-0.01em]">Agora</div>
+          <span className="text-[15px] font-semibold text-sidebar-foreground leading-tight tracking-[-0.01em]">
+            Agora
+          </span>
         </Link>
       </div>
 
@@ -47,24 +49,18 @@ export function Sidebar() {
       <nav className="flex-1 px-2 py-3 space-y-0.5">
         <Link
           href="/dashboard"
-          className={`group flex items-center gap-2.5 px-2.5 py-1.5 rounded-md transition-colors duration-150 hover:bg-sidebar-accent ${
-            isDashboardActive ? "bg-sidebar-accent" : ""
+          className={`group flex items-center gap-2.5 px-2.5 py-1.5 rounded transition-colors duration-100 ${
+            isDashboardActive
+              ? "bg-[#f2f9ff] text-[#0075de]"
+              : "text-[#615d59] hover:bg-[#f6f5f4] hover:text-foreground"
           }`}
         >
           <LayoutGrid
-            className={`h-3.5 w-3.5 flex-shrink-0 transition-colors duration-150 ${
-              isDashboardActive
-                ? "text-sidebar-foreground"
-                : "text-muted-foreground group-hover:text-sidebar-foreground"
+            className={`h-3.5 w-3.5 flex-shrink-0 ${
+              isDashboardActive ? "text-[#0075de]" : "text-[#a39e98] group-hover:text-[#615d59]"
             }`}
           />
-          <span
-            className={`text-sm transition-colors duration-150 ${
-              isDashboardActive
-                ? "font-medium text-sidebar-foreground"
-                : "text-muted-foreground group-hover:text-sidebar-foreground"
-            }`}
-          >
+          <span className={`text-[14px] font-medium ${isDashboardActive ? "font-semibold" : ""}`}>
             Мои доски
           </span>
         </Link>
@@ -75,15 +71,15 @@ export function Sidebar() {
         <div className="flex items-center gap-1.5">
           {!isLoading && user && (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer group rounded-md px-2.5 py-1.5 hover:bg-sidebar-accent transition-colors duration-150">
-                <div className="w-6 h-6 rounded-md bg-foreground flex items-center justify-center flex-shrink-0">
+              <DropdownMenuTrigger className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer group rounded px-2.5 py-1.5 hover:bg-[#f6f5f4] transition-colors duration-100">
+                <div className="w-6 h-6 rounded bg-foreground flex items-center justify-center flex-shrink-0">
                   <span className="text-background text-[10px] font-bold leading-none">{initial}</span>
                 </div>
                 <div className="flex-1 min-w-0 text-left">
-                  <div className="text-xs font-medium text-sidebar-foreground truncate leading-tight">
+                  <div className="text-[13px] font-medium text-sidebar-foreground truncate leading-tight">
                     {displayName}
                   </div>
-                  <div className="text-[10px] text-muted-foreground truncate leading-tight">
+                  <div className="text-[11px] text-[#a39e98] truncate leading-tight">
                     {email}
                   </div>
                 </div>

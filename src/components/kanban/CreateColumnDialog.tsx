@@ -41,7 +41,12 @@ export function CreateColumnDialog({ onCreate }: CreateColumnDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
-        render={<Button variant="outline" className="shrink-0 text-muted-foreground hover:text-foreground" />}
+        render={
+          <Button
+            variant="outline"
+            className="shrink-0 text-[#615d59] hover:text-foreground border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.2)]"
+          />
+        }
       >
         <Plus className="mr-2 h-4 w-4" />
         Добавить колонку

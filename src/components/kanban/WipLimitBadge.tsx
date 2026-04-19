@@ -9,11 +9,12 @@ export function WipLimitBadge({ count, limit }: WipLimitBadgeProps) {
 
   return (
     <span
-      className={`text-xs font-mono tabular-nums px-1.5 py-0.5 rounded border ${
+      className="text-[10px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full"
+      style={
         exceeded
-          ? "text-[oklch(0.65_0.2_25)] border-[oklch(0.65_0.2_25_/_30%)] bg-[oklch(0.65_0.2_25_/_8%)]"
-          : "text-muted-foreground border-border bg-transparent"
-      }`}
+          ? { color: "#d44c47", background: "rgba(212,76,71,0.08)", border: "1px solid rgba(212,76,71,0.25)" }
+          : { color: "#a39e98", background: "transparent", border: "1px solid rgba(0,0,0,0.1)" }
+      }
     >
       {count}/{limit}
     </span>

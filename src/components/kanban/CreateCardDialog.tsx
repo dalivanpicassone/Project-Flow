@@ -58,7 +58,7 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
           <Button
             variant="ghost"
             size="sm"
-            className="w-full justify-start text-muted-foreground hover:text-foreground border border-dashed border-border hover:border-foreground/20 hover:bg-muted/60 rounded-lg transition-all duration-150"
+            className="w-full justify-start text-[#a39e98] hover:text-[#615d59] border border-dashed border-[rgba(0,0,0,0.1)] hover:border-[rgba(0,0,0,0.2)] hover:bg-white rounded-lg transition-all duration-150"
           />
         }
       >
@@ -73,7 +73,7 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
           <div className="space-y-1">
             <Label htmlFor="card-title">Название *</Label>
             <Input id="card-title" placeholder="Что нужно сделать?" {...register("title")} />
-            {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
           <div className="space-y-1">
             <Label htmlFor="card-priority">Приоритет</Label>
@@ -81,12 +81,7 @@ export function CreateCardDialog({ columnId, onCreate }: CreateCardDialogProps) 
               <SelectTrigger id="card-priority">
                 <SelectValue
                   placeholder={
-                    {
-                      critical: "Критично",
-                      high: "Высокий",
-                      medium: "Средний",
-                      low: "Низкий",
-                    }[priority] ?? "Средний"
+                    { critical: "Критично", high: "Высокий", medium: "Средний", low: "Низкий" }[priority] ?? "Средний"
                   }
                 />
               </SelectTrigger>

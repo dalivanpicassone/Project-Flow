@@ -48,8 +48,12 @@ export function DashboardStats() {
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {[1,2,3,4].map((i) => (
-          <div key={i} className="rounded-xl border border-border bg-card h-[92px] animate-pulse" />
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="rounded-xl h-[88px] animate-pulse bg-[#f6f5f4]"
+            style={{ border: "1px solid rgba(0,0,0,0.08)" }}
+          />
         ))}
       </div>
     )
@@ -60,15 +64,23 @@ export function DashboardStats() {
       {stats.map(({ label, value, Icon, hint }) => (
         <div
           key={label}
-          className="rounded-lg border border-border bg-card p-4 flex flex-col gap-3 hover:border-foreground/15 transition-[border-color] duration-200"
+          className="rounded-xl bg-white p-4 flex flex-col gap-3 transition-[box-shadow] duration-150 hover:shadow-card-hover"
+          style={{
+            border: "1px solid rgba(0,0,0,0.08)",
+            boxShadow: "var(--shadow-card)",
+          }}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-[0.05em]">{label}</span>
-            <Icon className="h-3.5 w-3.5 text-muted-foreground/50" />
+            <span className="text-[11px] font-semibold text-[#a39e98] uppercase tracking-[0.05em]">
+              {label}
+            </span>
+            <Icon className="h-3.5 w-3.5 text-[#a39e98]" />
           </div>
           <div>
-            <p className="text-2xl font-semibold text-foreground tabular-nums leading-none">{value}</p>
-            <p className="text-[11px] text-muted-foreground mt-1.5">{hint}</p>
+            <p className="text-[26px] font-bold text-foreground tabular-nums leading-none tracking-[-0.02em]">
+              {value}
+            </p>
+            <p className="text-[11px] text-[#a39e98] mt-1.5">{hint}</p>
           </div>
         </div>
       ))}

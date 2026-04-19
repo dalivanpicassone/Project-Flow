@@ -79,15 +79,20 @@ export function KanbanColumn({
   return (
     <>
       <div
-        className="flex flex-col w-[272px] shrink-0 bg-muted/40 rounded-lg border border-border transition-[border-color] duration-200 overflow-hidden"
-        style={
-          isOver
-            ? { borderColor: "rgba(0,0,0,0.25)" }
-            : undefined
-        }
+        className="flex flex-col w-[272px] shrink-0 rounded-xl overflow-hidden transition-[box-shadow] duration-150"
+        style={{
+          background: "#ffffff",
+          border: isOver ? "1px solid rgba(0,117,222,0.35)" : "1px solid rgba(0,0,0,0.1)",
+          boxShadow: isOver
+            ? "0 0 0 3px rgba(0,117,222,0.08), var(--shadow-card)"
+            : "var(--shadow-card)",
+        }}
       >
+        {/* Column color accent bar */}
+        <div className="h-[3px] w-full" style={{ backgroundColor: colColor }} />
+
         {/* Column header */}
-        <div className="px-3.5 py-3 border-b border-border flex items-center gap-2">
+        <div className="px-3.5 py-3 border-b border-[rgba(0,0,0,0.06)] flex items-center gap-2">
           {isEditingTitle ? (
             <div className="flex items-center gap-1 flex-1">
               <Input
@@ -95,34 +100,23 @@ export function KanbanColumn({
                 onChange={(e) => setTitleValue(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleTitleSave()
-                  if (e.key === "Escape") {
-                    setTitleValue(column.title)
-                    setIsEditingTitle(false)
-                  }
+                  if (e.key === "Escape") { setTitleValue(column.title); setIsEditingTitle(false) }
                 }}
-                className="h-7 text-xs font-medium bg-background border-border"
+                className="h-7 text-[13px] font-medium"
                 autoFocus
               />
               <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleTitleSave}>
-                <Check className="h-3.5 w-3.5 text-foreground" />
+                <Check className="h-3.5 w-3.5 text-[#0075de]" />
               </Button>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7"
-                onClick={() => {
-                  setTitleValue(column.title)
-                  setIsEditingTitle(false)
-                }}
-              >
-                <X className="h-3.5 w-3.5 text-muted-foreground" />
+              <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => { setTitleValue(column.title); setIsEditingTitle(false) }}>
+                <X className="h-3.5 w-3.5 text-[#a39e98]" />
               </Button>
             </div>
           ) : (
             <button
               type="button"
-              className="text-xs font-semibold truncate hover:opacity-70 text-left transition-opacity flex-1"
-              style={{ color: exceeded ? "#ef4444" : colColor }}
+              className="text-[13px] font-semibold truncate hover:opacity-70 text-left transition-opacity flex-1"
+              style={{ color: exceeded ? "#d44c47" : colColor }}
               onClick={() => setIsEditingTitle(true)}
             >
               {column.title}
@@ -130,7 +124,7 @@ export function KanbanColumn({
           )}
 
           {/* Count badge */}
-          <span className="text-[11px] px-1.5 py-0.5 rounded font-medium tabular-nums text-muted-foreground bg-border/60">
+          <span className="text-[11px] font-semibold tabular-nums text-[#a39e98] bg-[#f6f5f4] rounded-full px-2 py-0.5">
             {cards.length}
           </span>
 
@@ -142,7 +136,7 @@ export function KanbanColumn({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-7 w-7 shrink-0 text-muted-foreground/50 hover:text-muted-foreground"
+                  className="h-7 w-7 shrink-0 text-[#a39e98] hover:text-[#615d59]"
                 />
               }
             >
@@ -161,7 +155,7 @@ export function KanbanColumn({
         </div>
 
         {/* Cards drop zone */}
-        <div ref={setNodeRef} className="flex flex-col gap-2 p-2 flex-1 min-h-[4rem]">
+        <div ref={setNodeRef} className="flex flex-col gap-2 p-2.5 flex-1 min-h-[4rem] bg-[#f6f5f4]">
           <SortableContext items={cardIds} strategy={verticalListSortingStrategy}>
             {cards.map((card) => (
               <KanbanCard
@@ -176,8 +170,8 @@ export function KanbanColumn({
           </SortableContext>
         </div>
 
-        {/* Add card button */}
-        <div className="p-2 pt-0">
+        {/* Add card */}
+        <div className="p-2.5 pt-0 bg-[#f6f5f4]">
           <CreateCardDialog columnId={column.id} onCreate={onCreateCard} />
         </div>
       </div>
@@ -192,10 +186,7 @@ export function KanbanColumn({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-destructive hover:bg-destructive/90"
-            >
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
               Удалить
             </AlertDialogAction>
           </AlertDialogFooter>
